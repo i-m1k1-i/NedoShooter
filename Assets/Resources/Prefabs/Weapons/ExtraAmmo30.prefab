@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 3042795074494515672}
   - component: {fileID: 8745732262005424357}
   m_Layer: 0
-  m_Name: ExtraAmmo
+  m_Name: ExtraAmmo30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a11e7b3df2e00447a7081e54b47aa4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 50
+  amount: 30
 --- !u!65 &8745732262005424357
 BoxCollider:
   m_ObjectHideFlags: 0

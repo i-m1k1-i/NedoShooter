@@ -8,11 +8,25 @@ public class ExtraAmmoZone : MonoBehaviour
 
     private bool _inZone;
 
+    private void Awake()
+    {
+        _extraAmmoDragMenu.SetActive(false);
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (_inZone && Input.GetKeyDown(KeyCode.E))
         {
-            _extraAmmoDragMenu.SetActive(true);
+            if (_extraAmmoDragMenu.activeSelf == false)
+            {
+                _extraAmmoDragMenu.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                _extraAmmoDragMenu.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 

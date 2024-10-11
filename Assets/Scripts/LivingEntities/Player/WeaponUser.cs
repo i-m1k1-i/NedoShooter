@@ -18,7 +18,7 @@ namespace Assets.Scripts.Player
         private IWeapon[] _weapons = new IWeapon[3];
         private IWeapon _currentWeapon;
         private int[] ammos = new int[3];
-        
+        private int _stuffLayerMask;
 
         public int AmmoAmount => _extraAmmo;
 
@@ -26,6 +26,8 @@ namespace Assets.Scripts.Player
         {
             SetWeapons();
             ChangeWeapon(WeaponTypes.Melee);
+            _stuffLayerMask = LayerMask.NameToLayer("Stuff");
+            print(_stuffLayerMask);
         }
 
         private void SetWeapons()
@@ -80,7 +82,7 @@ namespace Assets.Scripts.Player
 
         private void TryPickUpAmmo()
         {
-            if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, 2f) == false)
+            if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, 2f, _stuffLayerMask) == false)
             {
                 Debug.Log("Object not found");
                 return;
@@ -88,7 +90,7 @@ namespace Assets.Scripts.Player
 
             if (hit.transform.TryGetComponent<ExtraAmmo>(out ExtraAmmo ammo) == false)
             {
-                Debug.Log("Extra ammo not found");
+                Debug.Log($"Extra ammo not found: {hit.transform.gameObject.name}");
                 return;
             }
 

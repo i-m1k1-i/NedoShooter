@@ -35,10 +35,6 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
         }
-        else 
-        {
-            SetMoveDirectionInAir();
-        }
         _moveDirection.y -= _gravity * Time.deltaTime;
         _controller.Move(_moveDirection * Time.deltaTime);
     }
@@ -50,8 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void SetMoveDirection()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
         Vector3 inputDirection = new Vector3(horizontalInput, 0, verticalInput);
         inputDirection = transform.TransformDirection(inputDirection).normalized;

@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using JetBrains.Annotations;
 using Assets.Scripts.Player;
-using Unity.VisualScripting;
-
 
 namespace Assets.Scripts.Weapons
 {
