@@ -14,7 +14,6 @@ namespace Assets.Scripts.DragAndDrop
         public void RemoveItem()
         {
             _icon.SetItem(null);
-
         }
 
         public void AddItem(Sprite item)

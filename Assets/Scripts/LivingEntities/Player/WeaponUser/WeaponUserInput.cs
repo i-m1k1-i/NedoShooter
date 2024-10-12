@@ -5,7 +5,7 @@ using Assets.Scripts.Weapons;
 namespace Assets.Scripts.Player
 {
     [RequireComponent(typeof(WeaponUser))]
-    public class WeaponUserInput : MonoBehaviour
+    public class WeaponUserInput : MonoBehaviour, IWeaponUserActions
     {
         public event UnityAction Attacking;
         public event UnityAction Spraing;
@@ -13,9 +13,18 @@ namespace Assets.Scripts.Player
         public event UnityAction<WeaponTypes> ChangingWeapon;
         public event UnityAction TryingPickUpAmmo;
 
+        [SerializeField] PlayerController _playerController;
+
+        private bool _inputEnabled = true;
 
         private void Update()
         {
+            if (_inputEnabled == false)
+            {
+                print(_inputEnabled);
+                return;
+            }
+
             if (Input.GetButtonDown("Fire1"))
             {
                 Attacking?.Invoke();
@@ -36,10 +45,10 @@ namespace Assets.Scripts.Player
                 TryingPickUpAmmo?.Invoke();
             }
 
-            HandleWeaponChanging();
+            GetWeaponChangingInput();
         }
 
-        private void HandleWeaponChanging()
+        private void GetWeaponChangingInput()
         {
             for (int i = 1; i <= 3; i++)
             {
@@ -49,6 +58,28 @@ namespace Assets.Scripts.Player
                     print("ChangingWeapon inputs");
                 }
             }
+        }
+
+        private void SetInputEnable(bool menuModSetted)
+        {
+            if (menuModSetted)
+            {
+                _inputEnabled = false;
+            }
+            else
+            {
+                _inputEnabled = true;
+            }
+        }
+
+        private void OnEnable()
+        {
+            _playerController.MenuModeSetted += SetInputEnable;
+        }
+
+        private void OnDisable()
+        {
+            _playerController.MenuModeSetted -= SetInputEnable;
         }
     }
 }

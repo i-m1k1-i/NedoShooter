@@ -13,13 +13,14 @@ namespace Assets.Scripts.DragAndDrop
 
         private void Awake()
         {
-            _parentCanvas = GetComponent<Canvas>();
+            _parentCanvas = GetComponentInParent<Canvas>();
+            print(_parentCanvas.transform.gameObject.name);
             _source = GetComponentInParent<IDragSource>();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _startPosition = eventData.position;
+            _startPosition = transform.position;
             _originalParent = transform.parent;
 
             GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -33,16 +34,9 @@ namespace Assets.Scripts.DragAndDrop
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            transform.position = _startPosition;
-            GetComponent<CanvasGroup>().blocksRaycasts = true;
-            transform.SetParent(_originalParent, true);
+            ResetDragItemState();
 
             IDragDestination container = GetContainer(eventData);
-            if(EventSystem.current.IsPointerOverGameObject() == false)
-            {
-                container = _parentCanvas.GetComponent<IDragDestination>();
-            }
-
             if (container != null)
             {
                 DropItemIntoContainer(container);
@@ -51,22 +45,32 @@ namespace Assets.Scripts.DragAndDrop
 
         private IDragDestination GetContainer(PointerEventData eventData)
         {
-            IDragDestination container;
             GameObject raycastedObject = eventData.pointerCurrentRaycast.gameObject;
-            if (raycastedObject.TryGetComponent<IDragDestination>(out container))
-            {
-                return container;
-            }
-            else
+
+            if (raycastedObject == null) 
             {
                 return null;
             }
+
+            if (raycastedObject.TryGetComponent<IDragDestination>(out IDragDestination container))
+            {
+                return container;
+            }
+
+            return null;
         }
 
         private void DropItemIntoContainer(IDragDestination destination)
         {
             destination.AddItem(_source.GetItem());
             _source.RemoveItem();
+        }
+
+        private void ResetDragItemState()
+        {
+            transform.position = _startPosition;
+            GetComponent<CanvasGroup>().blocksRaycasts = true;
+            transform.SetParent(_originalParent, true);
         }
     }
 }

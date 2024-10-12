@@ -12,7 +12,6 @@ namespace Assets.Scripts.Weapons
 
         private string _text;
 
-
         private void Start()
         {
             _ammoUIText.enabled = false;

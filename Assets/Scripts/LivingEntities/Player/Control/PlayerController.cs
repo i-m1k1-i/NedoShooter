@@ -1,10 +1,13 @@
 using Assets.Scripts.Player;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    public event UnityAction<bool> MenuModeSetted;
+
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 4f;
     [SerializeField] private float _slopeForce = 5f;
@@ -17,10 +20,22 @@ public class PlayerController : MonoBehaviour
     private const float _stepDistance = 2.5f;
     private float _coveredDistance;
 
+    public void SetMenuMode(bool menuMode)
+    {
+        if (menuMode)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        MenuModeSetted?.Invoke(menuMode);
+    }
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        SetMenuMode(false);
         _controller = GetComponent<CharacterController>();
     }
 

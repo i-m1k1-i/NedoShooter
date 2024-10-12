@@ -7,6 +7,7 @@ public class ExtraAmmoZone : MonoBehaviour
     [SerializeField] private GameObject _extraAmmoDragMenu;
 
     private bool _inZone;
+    private PlayerController _playerController;
 
     private void Awake()
     {
@@ -17,16 +18,9 @@ public class ExtraAmmoZone : MonoBehaviour
     {
         if (_inZone && Input.GetKeyDown(KeyCode.E))
         {
-            if (_extraAmmoDragMenu.activeSelf == false)
-            {
-                _extraAmmoDragMenu.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                _extraAmmoDragMenu.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            bool menuIsActive = _extraAmmoDragMenu.activeSelf;
+            _extraAmmoDragMenu.SetActive(!menuIsActive);
+            _playerController.SetMenuMode(!menuIsActive);
         }
     }
 
@@ -36,18 +30,19 @@ public class ExtraAmmoZone : MonoBehaviour
         {
             return;
         }
-
         _inZone = true;
+        other.TryGetComponent<PlayerController>(out _playerController);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent<WeaponUser>(out WeaponUser weaponUser))
+        if (!other.TryGetComponent<WeaponUser>(out WeaponUser _))
         {
             return;
         }
-
         _inZone = false;
+        _playerController.SetMenuMode(false);
+        _playerController = null;
         _extraAmmoDragMenu.SetActive(false);
     }
 }

@@ -27,7 +27,7 @@ namespace Assets.Scripts.Player
             SetWeapons();
             ChangeWeapon(WeaponTypes.Melee);
             _stuffLayerMask = LayerMask.NameToLayer("Stuff");
-            print(_stuffLayerMask);
+            Debug.Log(_stuffLayerMask);
         }
 
         private void SetWeapons()
@@ -45,7 +45,7 @@ namespace Assets.Scripts.Player
         private void Attack()
         {
             _currentWeapon.Attack();
-            print("Attack");
+            Debug.Log("Attack");
         }
 
         private void Spray()
@@ -62,22 +62,20 @@ namespace Assets.Scripts.Player
             {
                 _extraAmmo -= firearm.Reload(_extraAmmo);
                 ExtraAmmoAmountChanged?.Invoke();
-                print("reload");
+                Debug.Log("Reloaded");
+                return;
             }
-            print("cant reload");
+            Debug.Log("Can't reload");
         }
 
         private void ChangeWeapon(WeaponTypes weaponType)
         {
-            if (_currentWeapon != null)
-            {
-                _currentWeapon.gameObject.SetActive(false);
-            }
+            _currentWeapon?.gameObject.SetActive(false);
             _currentWeapon = _weapons[(int)weaponType];
             _currentWeapon.gameObject.SetActive(true);
             _currentWeapon.transform.localPosition = _currentWeapon.InHandPosition;
             WeaponChanged?.Invoke(_currentWeapon);
-            print("weapon changed");
+            Debug.Log("Weapon changed");
         }
 
         private void TryPickUpAmmo()
@@ -109,11 +107,7 @@ namespace Assets.Scripts.Player
                 _extraAmmo += amount;
                 return true;
             }
-            else
-            {
-                return false;
-            }
-                
+            return false;
         }
 
         private void OnEnable()
