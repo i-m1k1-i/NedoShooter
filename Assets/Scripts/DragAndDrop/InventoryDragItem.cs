@@ -14,7 +14,6 @@ namespace Assets.Scripts.DragAndDrop
         private void Awake()
         {
             _parentCanvas = GetComponentInParent<Canvas>();
-            print(_parentCanvas.transform.gameObject.name);
             _source = GetComponentInParent<IDragSource>();
         }
 
@@ -62,8 +61,10 @@ namespace Assets.Scripts.DragAndDrop
 
         private void DropItemIntoContainer(IDragDestination destination)
         {
-            destination.AddItem(_source.GetItem());
+            Sprite itemIcon = _source.GetItem();
+            int ammoAmount = _source.GetAmmoAmount();
             _source.RemoveItem();
+            destination.AddItem(itemIcon, ammoAmount);
         }
 
         private void ResetDragItemState()

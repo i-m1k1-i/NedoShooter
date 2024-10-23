@@ -4,6 +4,6 @@ namespace Assets.Scripts.DragAndDrop
 {
     public interface IDragDestination
     {
-        void AddItem(Sprite item);
+        void AddItem(Sprite item, int AmmoAmount);
     }
 }

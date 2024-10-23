@@ -5,9 +5,9 @@ using UnityEngine;
 public class ExtraAmmoZone : MonoBehaviour
 {
     [SerializeField] private GameObject _extraAmmoDragMenu;
+    [SerializeField] private PlayerController _playerController;
 
     private bool _inZone;
-    private PlayerController _playerController;
 
     private void Awake()
     {

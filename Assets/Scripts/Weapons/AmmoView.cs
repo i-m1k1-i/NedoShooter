@@ -19,7 +19,7 @@ namespace Assets.Scripts.Weapons
 
         private void UpdateCurrentAmmo()
         {
-            _text = $"{_weaponUser.AmmoAmount}/{_weapon.CurrentAmmo}";
+            _text = $"{_weaponUser.ExtraAmmoAmount}/{_weapon.CurrentAmmo}";
             _ammoUIText.text = _text;
         }
 

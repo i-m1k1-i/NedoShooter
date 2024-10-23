@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour
             Vector2 localPosition = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * _radius;
             enemy = _enemyPool.Get();
             enemy.transform.position = new Vector3(transform.position.x + localPosition.x, _height, transform.position.z + localPosition.y);
-            Debug.Log("enemy setted");
+            // Debug.Log("enemy setted");
         }
     }
 

@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.DragAndDrop
 {
     public class InventoryItemIcon : MonoBehaviour 
     {
+        [SerializeField] private int _ammoAmount = 0;
+
         private Image _image;
-        private CanvasGroup _canvasGroup; 
+        private CanvasGroup _canvasGroup;
+
+        public int AmmoAmount => _ammoAmount;
+
+        public void SetAmmoAmount(int amount)
+        {
+            _ammoAmount = amount;
+        }
 
         private void Awake ()
         {
@@ -27,6 +35,7 @@ namespace Assets.Scripts.DragAndDrop
 
         public Sprite GetItem()
         {
+            print(_image.sprite + "_m1k1");
             return _image.sprite;
         }
     }

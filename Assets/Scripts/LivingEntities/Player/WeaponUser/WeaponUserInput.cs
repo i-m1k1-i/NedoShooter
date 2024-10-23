@@ -21,7 +21,6 @@ namespace Assets.Scripts.Player
         {
             if (_inputEnabled == false)
             {
-                print(_inputEnabled);
                 return;
             }
 
@@ -40,10 +39,10 @@ namespace Assets.Scripts.Player
                 Reloading?.Invoke();
                 print("Reloading input");
             }
-            else if (Input.GetKeyDown(KeyCode.F))
+            /*else if (Input.GetKeyDown(KeyCode.F))
             {
                 TryingPickUpAmmo?.Invoke();
-            }
+            }*/
 
             GetWeaponChangingInput();
         }

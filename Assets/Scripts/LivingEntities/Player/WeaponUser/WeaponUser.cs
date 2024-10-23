@@ -13,21 +13,43 @@ namespace Assets.Scripts.Player
         [SerializeField] private Transform _camera;
         [SerializeField] private WeaponUserInput _userInput;
         [SerializeField] private int _extraAmmo = 30;
-        [SerializeField] private int _extraAmmoLimit = 350;
+        [SerializeField] private int _maxExtraAmmo = 350;
 
         private IWeapon[] _weapons = new IWeapon[3];
         private IWeapon _currentWeapon;
-        private int[] ammos = new int[3];
         private int _stuffLayerMask;
 
-        public int AmmoAmount => _extraAmmo;
+        public int ExtraAmmoAmount => _extraAmmo;
+
+
+        public bool TryAddjustAmmo(int amount)
+        {
+            int newAmount = _extraAmmo + amount;
+
+            if (newAmount <= 0)
+            {
+                _extraAmmo = 0;
+            }
+            else if (newAmount <= _maxExtraAmmo)
+            {
+                _extraAmmo += amount;
+            }
+            else 
+            {
+                return false;
+            }
+
+            ExtraAmmoAmountChanged?.Invoke();
+            return true;
+
+        }
 
         private void Awake()
         {
             SetWeapons();
             ChangeWeapon(WeaponTypes.Melee);
             _stuffLayerMask = LayerMask.NameToLayer("Stuff");
-            Debug.Log(_stuffLayerMask);
+            // Debug.Log(_stuffLayerMask);
         }
 
         private void SetWeapons()
@@ -92,22 +114,11 @@ namespace Assets.Scripts.Player
                 return;
             }
 
-            if (TryAddAmmo(ammo.Amount))
+            if (TryAddjustAmmo(ammo.Amount))
             {
                 Destroy(ammo.gameObject);
                 Debug.Log("Extra ammo picked up");
-                ExtraAmmoAmountChanged?.Invoke();
             }
-        }
-
-        private bool TryAddAmmo(int amount)
-        {
-            if (_extraAmmo + amount <= _extraAmmoLimit)
-            { 
-                _extraAmmo += amount;
-                return true;
-            }
-            return false;
         }
 
         private void OnEnable()
