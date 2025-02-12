@@ -133,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 1031648661685829849, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: e0765886be3d8ed42b703d69b2bcb24c, type: 3}
+    - target: {fileID: 3278570339746248418, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
+      propertyPath: _ammoAmount
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3776081661255445577, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Name
@@ -296,6 +300,10 @@ PrefabInstance:
     - target: {fileID: 1031648661685829849, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: e0765886be3d8ed42b703d69b2bcb24c, type: 3}
+    - target: {fileID: 3278570339746248418, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
+      propertyPath: _ammoAmount
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3776081661255445577, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Name
@@ -2504,6 +2512,10 @@ PrefabInstance:
     - target: {fileID: 1031648661685829849, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: e0765886be3d8ed42b703d69b2bcb24c, type: 3}
+    - target: {fileID: 3278570339746248418, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
+      propertyPath: _ammoAmount
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3776081661255445577, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Name
@@ -5568,6 +5580,10 @@ PrefabInstance:
     - target: {fileID: 1031648661685829849, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: e0765886be3d8ed42b703d69b2bcb24c, type: 3}
+    - target: {fileID: 3278570339746248418, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
+      propertyPath: _ammoAmount
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3776081661255445577, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Name
@@ -6525,6 +6541,10 @@ PrefabInstance:
     - target: {fileID: 1031648661685829849, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 21300000, guid: e0765886be3d8ed42b703d69b2bcb24c, type: 3}
+    - target: {fileID: 3278570339746248418, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
+      propertyPath: _ammoAmount
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3776081661255445577, guid: 922f422b6511e5043bf2c922026d3443, type: 3}
       propertyPath: m_Name
