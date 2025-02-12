@@ -44,10 +44,10 @@ namespace Assets.Scripts.Player
                 TryingPickUpAmmo?.Invoke();
             }*/
 
-            GetWeaponChangingInput();
+            HandleWeaponChangingInput();
         }
 
-        private void GetWeaponChangingInput()
+        private void HandleWeaponChangingInput()
         {
             for (int i = 1; i <= 3; i++)
             {
