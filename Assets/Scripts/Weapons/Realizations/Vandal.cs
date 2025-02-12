@@ -5,7 +5,7 @@ namespace Assets.Scripts.Weapons
         private void Awake()
         {
             _damage = 25;
-            _sprayDelay = 0.2f;
+            _sprayDelay = 0.1f;
             MagazineCapacity = 30;
             Init();
         }

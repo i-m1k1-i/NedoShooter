@@ -44,7 +44,8 @@ namespace Assets.Scripts.LivingEntities.Player
 
         public void AddRotateX(float rotate)
         {
-            _rotationX += rotate;
+            _rotationX -= rotate;
+            Debug.Log("recoil: " + rotate);
         }
     }
 }

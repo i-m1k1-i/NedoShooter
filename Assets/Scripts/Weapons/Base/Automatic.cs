@@ -16,9 +16,10 @@ namespace Assets.Scripts.Weapons
         [SerializeField] protected float _sprayDelay;
 
         [Header("Recoil")]
-        [SerializeField] protected float _defaultRecoilPower = 0.2f;
-        [SerializeField] protected float _recoilPowerIncreasingRate = 0.05f;
-        [SerializeField] protected float _recoilDecreasingRate = 0.1f;
+        [SerializeField] protected float _defaultRecoilPower = 1f;
+        [SerializeField] protected float _recoilPowerIncreasingRate = 0.1f;
+        //[SerializeField] protected float _recoilDecreasingRate = 0.06f;
+        protected float _recoilDecreasingRate => _recoilPower * 0.02f;
 
         private RotationController _rotationController;
         private float _sprayTimer;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Weapons
             if (_addedRecoil > 0)
             {
                 _rotationController.AddRotateX(-_recoilDecreasingRate);
-                _addedRecoil -= _recoilDecreasingRate;
+                _addedRecoil = Mathf.Clamp(_addedRecoil - _recoilDecreasingRate, 0, 1000);
             }
             else 
             {

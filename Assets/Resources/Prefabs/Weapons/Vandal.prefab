@@ -158,9 +158,8 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _damage: 0
   _sprayDelay: 0
-  _defaultRecoilPower: 0.1
-  _recoilPowerIncreasingRate: 0.05
-  _recoilDecreasingRate: 0.1
+  _defaultRecoilPower: 2
+  _recoilPowerIncreasingRate: 0.4
 --- !u!95 &3790486695507888268
 Animator:
   serializedVersion: 5

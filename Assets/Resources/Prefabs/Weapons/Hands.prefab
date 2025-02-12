@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6099091274676915030}
   - component: {fileID: 1514925381080610302}
   - component: {fileID: 7368892943875305842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 8457793274881298459}
   - component: {fileID: 7408621398908889649}
   - component: {fileID: 1204319040583565260}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5569759849778456035}
   - component: {fileID: 8190772372466278271}
-  m_Layer: 0
+  - component: {fileID: -3430830150297330971}
+  m_Layer: 6
   m_Name: Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,3 +257,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7d07178949d054f918b3d3ddcbfbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damage: 25
+  _damageDistance: 2
+--- !u!95 &-3430830150297330971
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3768440263733241412}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 84984b51d7032ac43a67b0c91c74eb90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
