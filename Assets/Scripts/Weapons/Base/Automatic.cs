@@ -19,9 +19,10 @@ namespace Assets.Scripts.Weapons
         [SerializeField] protected float _defaultRecoilPower = 1f;
         [SerializeField] protected float _recoilPowerIncreasingRate = 0.1f;
         //[SerializeField] protected float _recoilDecreasingRate = 0.06f;
-        protected float _recoilDecreasingRate => _recoilPower * 0.02f;
+        protected float recoilDecreasingRate => _recoilPower * 0.025f;
 
         private RotationController _rotationController;
+        private Animator _animator;
         private float _sprayTimer;
         private bool _safetyEnabled = false;
         private float _recoilPower;
@@ -35,7 +36,9 @@ namespace Assets.Scripts.Weapons
         {
             _camera = transform.parent;
             Transform player = _camera.parent;
+
             _rotationController = player.GetComponent<RotationController>();
+            _animator = GetComponent<Animator>();
 
             CurrentAmmo = MagazineCapacity;
             _recoilPower = _defaultRecoilPower;
@@ -51,8 +54,8 @@ namespace Assets.Scripts.Weapons
 
             if (_addedRecoil > 0)
             {
-                _rotationController.AddRotateX(-_recoilDecreasingRate);
-                _addedRecoil = Mathf.Clamp(_addedRecoil - _recoilDecreasingRate, 0, 1000);
+                _rotationController.AddRotateX(-recoilDecreasingRate);
+                _addedRecoil = Mathf.Clamp(_addedRecoil - recoilDecreasingRate, 0, 1000);
             }
             else 
             {
@@ -82,7 +85,6 @@ namespace Assets.Scripts.Weapons
             }
             ApplyRecoil();
             CurrentAmmo--;
-
             Attacked?.Invoke();
             AmmoAmountChanged?.Invoke();
         }
@@ -113,6 +115,18 @@ namespace Assets.Scripts.Weapons
             return ammoUsed;
         }
 
+        public void SafetyOff()
+        {
+            _safetyEnabled = false;
+            BoltCocked?.Invoke();
+            Debug.Log("idle");
+        }
+
+        public void SafetyOn()
+        {
+            _safetyEnabled = true;
+        }
+
         private void ApplyRecoil()
         {
             _rotationController.AddRotateX(_recoilPower);
@@ -120,15 +134,17 @@ namespace Assets.Scripts.Weapons
             _recoilPower += _recoilPowerIncreasingRate;
         }
 
-        public void SafetyOff()
+        private void ResetRecoil()
         {
-            _safetyEnabled = false;
-            BoltCocked?.Invoke();
+            _addedRecoil = 0;
+            _recoilPower = _defaultRecoilPower;
         }
 
-        public void SafetyOn()
+        private void OnEnable()
         {
-            _safetyEnabled = true;
+            ResetRecoil();
+            _animator.SetTrigger("Take");
+            Debug.Log("In Hand Pos: " + InHandPosition);
         }
 
         private void OnDisable()

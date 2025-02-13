@@ -92,12 +92,21 @@ namespace Assets.Scripts.Player
 
         private void ChangeWeapon(WeaponTypes weaponType)
         {
-            _currentWeapon?.gameObject.SetActive(false);
-            _currentWeapon = _weapons[(int)weaponType];
-            _currentWeapon.gameObject.SetActive(true);
-            _currentWeapon.transform.localPosition = _currentWeapon.InHandPosition;
-            WeaponChanged?.Invoke(_currentWeapon);
-            Debug.Log("Weapon changed");
+            IWeapon targetWeapon = _weapons[(int)weaponType];
+            if (targetWeapon != _currentWeapon)
+            {
+                _currentWeapon?.gameObject.SetActive(false);
+                _currentWeapon = targetWeapon;
+                if (targetWeapon is Hands hands)
+                {
+                    hands.SetHandsDefaultPosition();
+                }
+                _currentWeapon.transform.localPosition = _currentWeapon.InHandPosition;
+                _currentWeapon.transform.localRotation = Quaternion.identity;
+                _currentWeapon.gameObject.SetActive(true);
+                WeaponChanged?.Invoke(_currentWeapon);
+                Debug.Log("Weapon changed");
+            }
         }
 
         private void TryPickUpAmmo()
