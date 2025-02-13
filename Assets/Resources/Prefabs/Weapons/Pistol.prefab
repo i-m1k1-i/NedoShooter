@@ -71,6 +71,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 0}
   _damage: 0
+  _defaultRecoilPower: 2
+  _recoilPowerIncreasingRate: 1
 --- !u!114 &-5844853137258170300
 MonoBehaviour:
   m_ObjectHideFlags: 0
