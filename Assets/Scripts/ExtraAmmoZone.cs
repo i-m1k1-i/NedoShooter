@@ -45,7 +45,6 @@ public class ExtraAmmoZone : MonoBehaviour
             return;
         }
 
-        Debug.Log(";laksdjfl;ksadjf");
         _inZone = false;
         _playerController.SetMenuMode(false);
         _playerController = null;
