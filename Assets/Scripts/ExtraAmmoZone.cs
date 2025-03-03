@@ -23,7 +23,7 @@ public class ExtraAmmoZone : MonoBehaviour
             _playerController.SetMenuMode(!menuIsActive);
         }
     }
-    //
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<WeaponUser>(out WeaponUser _) == false)
