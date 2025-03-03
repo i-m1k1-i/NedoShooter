@@ -25,20 +25,7 @@ namespace Assets.Scripts.Player
         public bool TryAddjustAmmo(int amount)
         {
             int newAmount = _extraAmmo + amount;
-
-            if (newAmount <= 0)
-            {
-                _extraAmmo = 0;
-            }
-            else if (newAmount <= _maxExtraAmmo)
-            {
-                _extraAmmo += amount;
-            }
-            else 
-            {
-                return false;
-            }
-
+            _extraAmmo = Mathf.Clamp(newAmount, 0, _maxExtraAmmo);
             ExtraAmmoAmountChanged?.Invoke();
             return true;
 
@@ -109,7 +96,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private void TryPickUpAmmo()
+        /*private void TryPickUpAmmo()
         {
             if (Physics.Raycast(_camera.position, _camera.forward, out RaycastHit hit, 2f, _stuffLayerMask) == false)
             {
@@ -128,7 +115,7 @@ namespace Assets.Scripts.Player
                 Destroy(ammo.gameObject);
                 Debug.Log("Extra ammo picked up");
             }
-        }
+        }*/
 
         private void OnEnable()
         {
@@ -136,7 +123,6 @@ namespace Assets.Scripts.Player
             _userInput.Spraing += Spray;
             _userInput.Reloading += Reload;
             _userInput.ChangingWeapon += ChangeWeapon;
-            _userInput.TryingPickUpAmmo += TryPickUpAmmo;
         }
 
         private void OnDisable()
@@ -145,7 +131,6 @@ namespace Assets.Scripts.Player
             _userInput.Spraing += Spray;
             _userInput.Reloading -= Reload;
             _userInput.ChangingWeapon -= ChangeWeapon;
-            _userInput.TryingPickUpAmmo -= TryPickUpAmmo;
         }
     }
 

@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private const float _stepDistance = 2.5f;
     private float _coveredDistance;
 
+    public float MoveSpeed => _moveSpeed;
+
     public void SetMenuMode(bool menuMode)
     {
         if (menuMode)
@@ -57,6 +59,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Slope();
+    }
+
+    public void SetMoveSpeed(float moveSpeed)
+    {
+        _moveSpeed = moveSpeed;
     }
 
     private void SetMoveDirection()

@@ -44,9 +44,9 @@ namespace Assets.Scripts.DragAndDrop
                     slot.AddItem(_bulletSprite, extraAmmoAmount);
                     extraAmmoAmount = 0;
                 }
-                else
+                else if (extraAmmoAmount == 0)
                 {
-                    continue;
+                    return;
                 }
             }
         }

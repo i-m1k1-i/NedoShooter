@@ -11,7 +11,6 @@ namespace Assets.Scripts.Player
         public event UnityAction Spraing;
         public event UnityAction Reloading;
         public event UnityAction<WeaponTypes> ChangingWeapon;
-        public event UnityAction TryingPickUpAmmo;
 
         [SerializeField] PlayerController _playerController;
 
@@ -39,10 +38,6 @@ namespace Assets.Scripts.Player
                 Reloading?.Invoke();
                 print("Reloading input");
             }
-            /*else if (Input.GetKeyDown(KeyCode.F))
-            {
-                TryingPickUpAmmo?.Invoke();
-            }*/
 
             HandleWeaponChangingInput();
         }

@@ -16,7 +16,7 @@ public class ExtraAmmoZone : MonoBehaviour
 
     private void Update()
     {
-        if (_inZone && Input.GetKeyDown(KeyCode.E))
+        if (_inZone && Input.GetKeyDown(KeyCode.F))
         {
             bool menuIsActive = _extraAmmoDragMenu.activeSelf;
             _extraAmmoDragMenu.SetActive(!menuIsActive);

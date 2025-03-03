@@ -9,6 +9,5 @@ namespace Assets.Scripts.Player
         event UnityAction Spraing;
         event UnityAction Reloading;
         event UnityAction<WeaponTypes> ChangingWeapon;
-        event UnityAction TryingPickUpAmmo;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] GameObject _enemyPrefab;
-    [SerializeField] int _enemiesNum = 10;
+    [SerializeField] int _enemiesNum = 11;
     [SerializeField] int _radius = 5;
     [SerializeField, Range(1, 10)] float _height;
 
@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
         float angleStep = 360 / _enemiesNum * Mathf.Deg2Rad;
         GameObject enemy;
 
-        for (int i = 0; i <= _enemiesNum; i++)
+        for (int i = 1; i <= _enemiesNum; i++)
         {
             float angle = angleStep * i;
             Vector2 localPosition = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * _radius;

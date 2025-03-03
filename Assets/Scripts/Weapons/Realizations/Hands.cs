@@ -18,6 +18,7 @@ namespace Assets.Scripts.Weapons
 
         private Transform _camera;
         private Animator _animator;
+        private AudioSource _audioSource;
         private Vector3 _leftDefaultPosition;
         private Vector3 _rightDefaultPosition;
         private bool _firstPunch = true;
@@ -27,6 +28,7 @@ namespace Assets.Scripts.Weapons
             SetPosition();
             _camera = transform.parent;
             _animator = GetComponent<Animator>();
+            _audioSource = GetComponent<AudioSource>();
             _leftDefaultPosition = _leftHand.localPosition;
             _rightDefaultPosition = _rightHand.localPosition;
         }
@@ -53,13 +55,16 @@ namespace Assets.Scripts.Weapons
             {
                 _animator.SetTrigger("Right");
             }
+            _audioSource.Play();
             _firstPunch = !_firstPunch;
 
-            Vector3 raycastPosition = _camera.position + _camera.forward * 0.2f;
-            if (Physics.Raycast(raycastPosition, _camera.forward, out RaycastHit hit, _damageDistance))
+            int layerMask = ~LayerMask.GetMask("Player");
+            Vector3 raycastPosition = _camera.position + _camera.forward * 0.37f;
+            if (Physics.Raycast(raycastPosition, _camera.forward, out RaycastHit hit, _damageDistance, layerMask))
             {
                 if (hit.transform.TryGetComponent<Health>(out Health health))
                 {
+                    Debug.Log("Hit name: " + hit.transform.name);
                     health.TakeDamage(_damage);
                 }
                 Attacked?.Invoke();
@@ -69,6 +74,13 @@ namespace Assets.Scripts.Weapons
         private void OnEnable()
         {
             Debug.Log("default position set: "  +  _leftDefaultPosition + ", " + _rightDefaultPosition + "\n"  + _leftHand.localPosition + ", " + _rightHand.localPosition);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector3 raycastPosition = _camera.position + _camera.forward * 0.37f;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(raycastPosition, raycastPosition + (_camera.forward * _damageDistance));
         }
     }
 }
