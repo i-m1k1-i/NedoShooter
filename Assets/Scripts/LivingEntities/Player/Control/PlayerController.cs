@@ -1,6 +1,7 @@
 using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -15,12 +16,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _gravity = 9.8f;
     [SerializeField] private FootStepsSounds _footStepsSounds;
 
+    private PlayerInput _playerInput;
     private CharacterController _controller;
+    private Character _character;
     private Vector3 _moveDirection;
     private const float _stepDistance = 2.5f;
     private float _coveredDistance;
+    private float _moveMultiplier = 1;
 
     public float MoveSpeed => _moveSpeed;
+
+    public event UnityAction RightClick;
 
     public void SetMenuMode(bool menuMode)
     {
@@ -35,10 +41,34 @@ public class PlayerController : MonoBehaviour
         MenuModeSetted?.Invoke(menuMode);
     }
 
+    public void SetMoveSpeed(float moveSpeed)
+    {
+        _moveSpeed = moveSpeed;
+    }
+
+    public bool TryMultiplyMoveDirection(float multiplier)
+    {
+        if (_controller.isGrounded)
+        {
+            _moveMultiplier = multiplier;
+            return true;
+        }
+
+        return false;
+
+    }
+
     private void Awake()
     {
         SetMenuMode(false);
         _controller = GetComponent<CharacterController>();
+        _character = GetComponent<Character>();
+
+        _playerInput = new PlayerInput();
+        _playerInput.Character.Ability1.performed += cntx => _character.Ability1();
+        _playerInput.Character.Ability2.performed += cntx => _character.Ability2();
+        _playerInput.Character.Ability3.performed += cntx => _character.Ability3();
+        _playerInput.Player.RightClick.performed += cntx => RightClick.Invoke();
     }
 
     private void Update()
@@ -53,17 +83,13 @@ public class PlayerController : MonoBehaviour
             }
         }
         _moveDirection.y -= _gravity * Time.deltaTime;
-        _controller.Move(_moveDirection * Time.deltaTime);
+        _controller.Move(_moveMultiplier * Time.deltaTime * _moveDirection);
+        _moveMultiplier = 1;
     }
 
     private void FixedUpdate()
     {
         Slope();
-    }
-
-    public void SetMoveSpeed(float moveSpeed)
-    {
-        _moveSpeed = moveSpeed;
     }
 
     private void SetMoveDirection()
@@ -126,5 +152,15 @@ public class PlayerController : MonoBehaviour
             _moveDirection.z += (1f - hit.normal.y) * hit.normal.z * _slopeForce;
             _moveDirection.y -= _slopeForce;
         }
+    }
+
+    private void OnEnable()
+    {
+        _playerInput.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.Disable();
     }
 }
