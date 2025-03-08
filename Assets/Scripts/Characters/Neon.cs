@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class Neon : Character
 {
+    [SerializeField] private InputReader _input;
+    [SerializeField] private NeonEnergyView _energyView;
     [SerializeField] private float _runningMultiplier;
     [SerializeField] private float _dashMultiplier;
     [SerializeField] private int _maxEnergy;
-    [SerializeField] private NeonEnergyView _energyView;
 
     private PlayerController _playerController;
     private float _defaultSpeed;
@@ -43,12 +45,6 @@ public class Neon : Character
     {
         SwitchRunning();
     }
-
-    public override void Ability2()
-    {
-        Debug.Log("Ability2");
-    }
-
     public void Dash()
     {
         if (_ability1 == false || _running == false)
@@ -61,6 +57,11 @@ public class Neon : Character
         {
             //_ability1 = false;
         }
+    }
+
+    public override void Ability2()
+    {
+        Debug.Log("Ability2");
     }
 
     public override void Ability3()
@@ -88,6 +89,11 @@ public class Neon : Character
 
     private void OnEnable()
     {
-        _playerController.RightClick += Dash;
+        _input.AltFireEvent += Dash;
+    }
+
+    private void OnDisable()
+    {
+        _input.AltFireEvent -= Dash;
     }
 }

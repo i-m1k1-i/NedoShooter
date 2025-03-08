@@ -2,6 +2,7 @@ using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -9,24 +10,29 @@ public class PlayerController : MonoBehaviour
 {
     public event UnityAction<bool> MenuModeSetted;
 
+    [Header("Required components")]
+    [SerializeField] private InputReader _input;
+    [SerializeField] private FootStepsSounds _footStepsSounds;
+
+    [Header("Value settings")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 4f;
     [SerializeField] private float _slopeForce = 5f;
     [SerializeField] private float _slopeRayLength = 1.5f;
     [SerializeField] private float _gravity = 9.8f;
-    [SerializeField] private FootStepsSounds _footStepsSounds;
 
-    private PlayerInput _playerInput;
+    private const float _stepDistance = 2.5f;
+    private float _moveMultiplier = 1;
     private CharacterController _controller;
     private Character _character;
     private Vector3 _moveDirection;
-    private const float _stepDistance = 2.5f;
     private float _coveredDistance;
-    private float _moveMultiplier = 1;
+    private bool _isJumping;
+    private Vector2 _airInput;
+    private bool _isAirInput;
 
     public float MoveSpeed => _moveSpeed;
 
-    public event UnityAction RightClick;
 
     public void SetMenuMode(bool menuMode)
     {
@@ -55,7 +61,6 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
-
     }
 
     private void Awake()
@@ -63,27 +68,27 @@ public class PlayerController : MonoBehaviour
         SetMenuMode(false);
         _controller = GetComponent<CharacterController>();
         _character = GetComponent<Character>();
-
-        _playerInput = new PlayerInput();
-        _playerInput.Character.Ability1.performed += cntx => _character.Ability1();
-        _playerInput.Character.Ability2.performed += cntx => _character.Ability2();
-        _playerInput.Character.Ability3.performed += cntx => _character.Ability3();
-        _playerInput.Player.RightClick.performed += cntx => RightClick.Invoke();
     }
 
     private void Update()
     {
-        if (_controller.isGrounded)
+        if (_controller.isGrounded && _isAirInput)
         {
-            SetMoveDirection();
+            Vector3 direction = new Vector3(_airInput.x, 0, _airInput.y);
+            _moveDirection = direction * _moveSpeed;
 
-            if (Input.GetButton("Jump"))
-            {
-                Jump();
-            }
+            _isAirInput = false;
+        }
+
+        if (_isJumping)
+        {
+            _moveDirection.y = _jumpForce;
+            _isJumping = false;
         }
         _moveDirection.y -= _gravity * Time.deltaTime;
-        _controller.Move(_moveMultiplier * Time.deltaTime * _moveDirection);
+
+        Vector3 move = transform.TransformDirection(_moveDirection);
+        _controller.Move(_moveMultiplier * Time.deltaTime * move);
         _moveMultiplier = 1;
     }
 
@@ -92,16 +97,20 @@ public class PlayerController : MonoBehaviour
         Slope();
     }
 
-    private void SetMoveDirection()
+    private void SetMoveDirection(Vector2 input)
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        if (_controller.isGrounded == false)
+        {
+            _airInput = input;
+            _isAirInput = true;
+            return;
+        }
 
-        Vector3 inputDirection = new Vector3(horizontalInput, 0, verticalInput);
-        inputDirection = transform.TransformDirection(inputDirection).normalized;
-        _moveDirection = inputDirection * _moveSpeed;
+        Vector3 direction = new Vector3(input.x, 0, input.y);
+        _moveDirection = direction * _moveSpeed;
+        Debug.Log("Input direction: " + _moveDirection);
 
-        if (horizontalInput == 0 && verticalInput == 0)
+        if (input.magnitude == 0)
         {
             _coveredDistance = 0;
         }
@@ -116,27 +125,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SetMoveDirectionInAir()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        if (horizontalInput == 0 && verticalInput == 0)
-        {
-            print("No input in air");
-            return;
-        }
-
-        Vector3 inputDirection = new Vector3(horizontalInput, 0, verticalInput);
-        inputDirection = transform.TransformDirection(inputDirection).normalized;
-        float moveDirectoinY = _moveDirection.y;
-        _moveDirection = (inputDirection + _moveDirection).normalized * (_moveSpeed / 2);
-        _moveDirection.y = moveDirectoinY;
-    }
-
     private void Jump()
     {
         _moveDirection.y = _jumpForce;
+        //_isJumping = true;
+    }
+
+    private void HandleJump()
+    {
+        if (_controller.isGrounded)
+        {
+            Jump();
+        }
+        else
+        {
+            Debug.Log("OnGround false");
+        }
     }
 
     private void Slope()
@@ -156,11 +160,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerInput.Enable();
+        _input.Ability1Event += _character.Ability1;
+        _input.Ability2Event += _character.Ability2;
+        _input.Ability3Event += _character.Ability3;
+        _input.MoveEvent += SetMoveDirection;
+        _input.JumpEvent += HandleJump;
     }
 
     private void OnDisable()
     {
-        _playerInput.Disable();
+        _input.Ability1Event -= _character.Ability1;
+        _input.Ability2Event -= _character.Ability2;
+        _input.Ability3Event -= _character.Ability3;
+        _input.MoveEvent -= SetMoveDirection;
+        _input.JumpEvent -= HandleJump;
     }
 }

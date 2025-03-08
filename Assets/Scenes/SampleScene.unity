@@ -2317,8 +2317,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4a11f1b488d0e4480fcfa8963b1f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: b1b91388ceb87b04aa124b88724ce5fb, type: 2}
   _camera: {fileID: 963194228}
-  _rotationSpeed: 300
+  _rotationSpeed: 10
 --- !u!114 &547933303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2331,12 +2332,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d06cd7cb31f3d4b8d1d7284b59d248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: b1b91388ceb87b04aa124b88724ce5fb, type: 2}
+  _footStepsSounds: {fileID: 668205521}
   _moveSpeed: 5
   _jumpForce: 4
   _slopeForce: 5
   _slopeRayLength: 1.5
   _gravity: 9.8
-  _footStepsSounds: {fileID: 668205521}
 --- !u!143 &547933304
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2357,7 +2359,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.50000006
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -2484,12 +2486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e14d69987117b41b780cff6a57bdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: b1b91388ceb87b04aa124b88724ce5fb, type: 2}
   _weaponPrefabs:
   - {fileID: 2515978966475120112, guid: 09514849c58917d43bfedd8aa491ce14, type: 3}
   - {fileID: 407493495717998565, guid: d95285e284217d6428f11ac5d9be19da, type: 3}
   - {fileID: 3768440263733241412, guid: d9ececf95f5e52648a65876784a8dfe0, type: 3}
   _camera: {fileID: 963194228}
-  _userInput: {fileID: 547933306}
   _extraAmmo: 80
   _maxExtraAmmo: 350
 --- !u!114 &547933308
@@ -2504,10 +2506,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313b15df1dabff046943ea6dfbf7786b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runningMultiplier: 1.7
-  _dashMultiplier: 2
-  _maxEnergy: 30
+  _input: {fileID: 11400000, guid: b1b91388ceb87b04aa124b88724ce5fb, type: 2}
   _energyView: {fileID: 1306917247}
+  _runningMultiplier: 1.7
+  _dashMultiplier: 15
+  _maxEnergy: 30
 --- !u!1 &561660156
 GameObject:
   m_ObjectHideFlags: 0
@@ -4342,7 +4345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b45fa0ca2bdc49d42890d08dacd2e858, type: 3}
   m_Name: 
