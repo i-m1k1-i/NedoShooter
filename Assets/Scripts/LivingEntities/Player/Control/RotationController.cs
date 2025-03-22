@@ -11,6 +11,11 @@ namespace Assets.Scripts.LivingEntities.Player
         private float _rotationX;
         public float RotationX => _rotationX;
 
+        private void Update()
+        {
+            HandleRotation(_input.MouseDelta);
+        }
+
         private void HandleRotation(Vector2 mouseInput)
         {
             float mouseInputX = mouseInput.x;
@@ -39,16 +44,6 @@ namespace Assets.Scripts.LivingEntities.Player
         {
             _rotationX -= rotate;
             Debug.Log("recoil: " + rotate);
-        }
-
-        private void OnEnable()
-        {
-            _input.RotateEvent += HandleRotation;
-        }
-
-        private void OnDisable()
-        {
-            _input.RotateEvent -= HandleRotation;
         }
     }
 }

@@ -9,7 +9,7 @@
                     "name": "Ability1",
                     "type": "Button",
                     "id": "94096bd0-6d63-413a-b025-6524d471f8ad",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

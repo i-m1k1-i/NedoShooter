@@ -1,99 +1,160 @@
+using Assets.Scripts.Player;
+using Assets.Scripts.Weapons;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Windows;
 
-public class Neon : Character
+namespace Assets.Scripts.Characters.Neon
 {
-    [SerializeField] private InputReader _input;
-    [SerializeField] private NeonEnergyView _energyView;
-    [SerializeField] private float _runningMultiplier;
-    [SerializeField] private float _dashMultiplier;
-    [SerializeField] private int _maxEnergy;
-
-    private PlayerController _playerController;
-    private float _defaultSpeed;
-    private bool _running;
-    private float _energy;
-
-    bool _ability1 = true;
-
-    private void Awake()
+    public class Neon : Agent
     {
-        _playerController = GetComponent<PlayerController>();
-        _defaultSpeed = _playerController.MoveSpeed;
-        Debug.Log("Default speed: " + _defaultSpeed);
-        _energy = _maxEnergy;
-    }
+        [SerializeField] private InputReader _input;
 
-    private void Update()
-    {
-        if (_running)
+        [SerializeField] private float _runningMultiplier;
+        [SerializeField] private float _dashMultiplier;
+        [SerializeField] private float _dashDuration;
+
+        private PlayerController _playerController;
+        private float _defaultSpeed;
+        private int _ability1 = 100;
+
+        public WeaponUser WeaponUser { get; private set; }
+        public float DefaultSpeed => _defaultSpeed;
+        public float RnningSpeed => _defaultSpeed * _runningMultiplier;
+        public InputReader Input => _input;
+
+        
+        private void Awake()
         {
-            _energy -= Time.deltaTime;
-            if (_energy <= 0)
+            WeaponUser = GetComponent<WeaponUser>();
+            _playerController = GetComponent<PlayerController>();
+            _defaultSpeed = _playerController.MoveSpeed;
+            GameObject obj = new GameObject("EnergySystem");
+            EnergySystem energySystem = obj.AddComponent<EnergySystem>();
+            energySystem.Prepare(this);
+            SetState(new NeonNormalState(this));
+        }
+
+        private void Update()
+        {
+            State.Update();
+        }
+
+        public void SetMoveSpeed(float speed)
+        {
+            _playerController.SetMoveSpeed(speed);
+        }
+
+        public override void Ability1()
+        {
+            SwitchState();
+        }
+        private IEnumerator Dash()
+        {
+            if (_ability1 == 0 || State is NeonNormalState || _playerController.IsGrounded == false)
             {
-                SwitchRunning();
+                yield break;
+            }
+
+            Debug.Log("Dashing");
+            _playerController.MultiplyMoveDirection(_dashMultiplier);
+            _playerController.MoveInput = false;
+            WeaponUser.ChangeWeapon(WeaponType.MainWeapon);
+
+            yield return new WaitForSeconds(_dashDuration);
+
+            SetState(new NeonNormalState(this));
+            _playerController.MoveInput = true;
+            Debug.Log("Dashing end");
+            _playerController.MultiplyMoveDirection(1);
+            _ability1 -= 1;
+        }
+        private void CallDash()
+        {
+            StartCoroutine(Dash());
+        }
+
+        public override void Ability2()
+        {
+            Debug.Log("Ability2");
+        }
+
+        public override void Ability3()
+        {
+            Debug.Log("Ability3");
+        }
+
+        private void SwitchState()
+        {
+            if (State is NeonNormalState)
+            {
+                SetState(new NeonRunningState(this));
+            }
+            else
+            {
+                SetState(new NeonNormalState(this));
             }
         }
-        else if (_energy < _maxEnergy)
+
+        private void OnEnable()
         {
-            _energy = Mathf.Clamp(_energy + Time.deltaTime, 0, _maxEnergy);
+            _input.Ability1Event += Ability1;
+            _input.Ability2Event += Ability2;
+            _input.Ability3Event += Ability3;
+            _input.AltFireEvent += CallDash;
         }
-        _energyView.SetValue(_energy / _maxEnergy);
-    }
 
-    public override void Ability1()
-    {
-        SwitchRunning();
-    }
-    public void Dash()
-    {
-        if (_ability1 == false || _running == false)
+        private void OnDisable()
         {
-            return;
+            _input.Ability1Event -= Ability1;
+            _input.Ability2Event -= Ability2;
+            _input.Ability3Event -= Ability3;
+            _input.AltFireEvent -= CallDash;
         }
+    }
 
-        bool dashed = _playerController.TryMultiplyMoveDirection(_dashMultiplier);
-        if (dashed)
+    public class NeonNormalState : AgentState
+    {
+        private Neon neon;
+        public NeonNormalState(Agent agent) : base(agent) { }
+
+        public override void Enter()
         {
-            //_ability1 = false;
+            neon = (Neon)_agent;
+            neon.SetMoveSpeed(neon.DefaultSpeed);
+            neon.Input.EnableWeaponSwitching();
         }
-    }
 
-    public override void Ability2()
-    {
-        Debug.Log("Ability2");
-    }
-
-    public override void Ability3()
-    {
-        Debug.Log("Ability3");
-    }
-
-    private void SwitchRunning()
-    {
-        _running = !_running;
-        UpdateMoveSpeed();
-    }
-
-    private void UpdateMoveSpeed()
-    {
-        if (_running)
-        { 
-            _playerController.SetMoveSpeed(_defaultSpeed * _runningMultiplier);
-        }
-        else 
+        public override void Update()
         {
-            _playerController.SetMoveSpeed(_defaultSpeed); 
+
+        }
+
+        public override void Exit()
+        {
+            neon.SetState(null);
         }
     }
 
-    private void OnEnable()
+    public class NeonRunningState : AgentState
     {
-        _input.AltFireEvent += Dash;
-    }
+        Neon neon;
+        public NeonRunningState(Agent agent) : base(agent) { }
 
-    private void OnDisable()
-    {
-        _input.AltFireEvent -= Dash;
+        public override void Enter()
+        {
+            neon = (Neon)_agent;
+            neon.SetMoveSpeed(neon.RnningSpeed);
+            neon.WeaponUser.ChangeWeapon(WeaponType.Melee);
+            neon.Input.DisableWeaponSwitching();
+        }
+        public override void Update()
+        {
+            
+        }
+
+        public override void Exit()
+        {
+            neon.SetState(null);
+        }
     }
 }

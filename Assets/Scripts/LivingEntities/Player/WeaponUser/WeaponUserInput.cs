@@ -10,7 +10,7 @@ namespace Assets.Scripts.Player
         public event UnityAction Attacking;
         public event UnityAction Spraing;
         public event UnityAction Reloading;
-        public event UnityAction<WeaponTypes> ChangingWeapon;
+        public event UnityAction<WeaponType> ChangingWeapon;
 
         [SerializeField] PlayerController _playerController;
 
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Player
             {
                 if (Input.GetKeyDown(KeyCode.Alpha0 + i))
                 {
-                    ChangingWeapon?.Invoke((WeaponTypes)i - 1);
+                    ChangingWeapon?.Invoke((WeaponType)i - 1);
                     print("ChangingWeapon inputs");
                 }
             }

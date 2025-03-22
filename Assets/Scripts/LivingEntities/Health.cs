@@ -3,10 +3,10 @@ using UnityEngine;
 
 public abstract class Health : MonoBehaviour
 {
-    [SerializeField] int _maxHealth = 100;
+    [SerializeField] protected int _maxHealth = 100;
 
-    [SerializeField] private int _currentHealth;
-    public int CurrentHealth { get{ return _currentHealth; } }
+    [SerializeField] protected int _currentHealth;
+    public int CurrentHealth => _currentHealth;
 
 
     protected virtual void OnEnable()

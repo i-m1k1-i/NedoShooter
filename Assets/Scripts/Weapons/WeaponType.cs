@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Weapons
 {
-    public enum WeaponTypes
+    public enum WeaponType
     {
         MainWeapon = 0,
         SecondaryWeapon = 1,

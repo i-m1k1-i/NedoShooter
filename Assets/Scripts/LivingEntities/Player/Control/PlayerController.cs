@@ -24,14 +24,15 @@ public class PlayerController : MonoBehaviour
     private const float _stepDistance = 2.5f;
     private float _moveMultiplier = 1;
     private CharacterController _controller;
-    private Character _character;
     private Vector3 _moveDirection;
     private float _coveredDistance;
+    private Vector2 _nonMoveableInput;
+    private bool _isNonMoveableInput;
+    public bool MoveInput = true;
     private bool _isJumping;
-    private Vector2 _airInput;
-    private bool _isAirInput;
 
     public float MoveSpeed => _moveSpeed;
+    public bool IsGrounded => _controller.isGrounded;
 
 
     public void SetMenuMode(bool menuMode)
@@ -50,46 +51,36 @@ public class PlayerController : MonoBehaviour
     public void SetMoveSpeed(float moveSpeed)
     {
         _moveSpeed = moveSpeed;
+        _moveDirection = _moveDirection.normalized * moveSpeed;
     }
 
-    public bool TryMultiplyMoveDirection(float multiplier)
+    public void MultiplyMoveDirection(float multiplier)
     {
-        if (_controller.isGrounded)
-        {
-            _moveMultiplier = multiplier;
-            return true;
-        }
-
-        return false;
+        _moveMultiplier = multiplier;
     }
 
     private void Awake()
     {
         SetMenuMode(false);
         _controller = GetComponent<CharacterController>();
-        _character = GetComponent<Character>();
     }
 
     private void Update()
     {
-        if (_controller.isGrounded && _isAirInput)
+        if (_controller.isGrounded && _isNonMoveableInput && MoveInput)
         {
-            Vector3 direction = new Vector3(_airInput.x, 0, _airInput.y);
+            Vector3 direction = new Vector3(_nonMoveableInput.x, 0, _nonMoveableInput.y);
             _moveDirection = direction * _moveSpeed;
 
-            _isAirInput = false;
+            _isNonMoveableInput = false;
         }
 
-        if (_isJumping)
-        {
-            _moveDirection.y = _jumpForce;
-            _isJumping = false;
-        }
+        SetMoveDirection(_input.MoveValue);
+
         _moveDirection.y -= _gravity * Time.deltaTime;
 
         Vector3 move = transform.TransformDirection(_moveDirection);
         _controller.Move(_moveMultiplier * Time.deltaTime * move);
-        _moveMultiplier = 1;
     }
 
     private void FixedUpdate()
@@ -99,16 +90,23 @@ public class PlayerController : MonoBehaviour
 
     private void SetMoveDirection(Vector2 input)
     {
-        if (_controller.isGrounded == false)
+        if (_controller.isGrounded == false || MoveInput == false)
         {
-            _airInput = input;
-            _isAirInput = true;
+            Debug.Log("move off");
+            _nonMoveableInput = input;
+            _isNonMoveableInput = true;
             return;
         }
 
         Vector3 direction = new Vector3(input.x, 0, input.y);
         _moveDirection = direction * _moveSpeed;
         Debug.Log("Input direction: " + _moveDirection);
+
+        if (_isJumping)
+        {
+            _moveDirection.y = _jumpForce;
+            _isJumping = false;
+        }
 
         if (input.magnitude == 0)
         {
@@ -127,8 +125,8 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        _moveDirection.y = _jumpForce;
-        //_isJumping = true;
+        // _moveDirection.y = _jumpForce;
+        _isJumping = true;
     }
 
     private void HandleJump()
@@ -139,7 +137,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("OnGround false");
+            Debug.Log("isGrounded false");
         }
     }
 
@@ -160,19 +158,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.Ability1Event += _character.Ability1;
-        _input.Ability2Event += _character.Ability2;
-        _input.Ability3Event += _character.Ability3;
-        _input.MoveEvent += SetMoveDirection;
         _input.JumpEvent += HandleJump;
     }
 
     private void OnDisable()
     {
-        _input.Ability1Event -= _character.Ability1;
-        _input.Ability2Event -= _character.Ability2;
-        _input.Ability3Event -= _character.Ability3;
-        _input.MoveEvent -= SetMoveDirection;
         _input.JumpEvent -= HandleJump;
     }
 }

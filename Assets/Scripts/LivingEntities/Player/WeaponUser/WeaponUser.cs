@@ -35,7 +35,7 @@ namespace Assets.Scripts.Player
         private void Awake()
         {
             SetWeapons();
-            ChangeWeapon(WeaponTypes.Melee);
+            ChangeWeapon(WeaponType.Melee);
         }
 
         private void Update()
@@ -84,7 +84,7 @@ namespace Assets.Scripts.Player
             Debug.Log("Can't reload");
         }
 
-        private void ChangeWeapon(WeaponTypes weaponType)
+        public void ChangeWeapon(WeaponType weaponType)
         {
             IWeapon targetWeapon = _weapons[(int)weaponType];
             if (targetWeapon != _currentWeapon)

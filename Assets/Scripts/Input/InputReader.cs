@@ -1,4 +1,5 @@
 using Assets.Scripts.Weapons;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -14,14 +15,31 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
     public event UnityAction Ability3Event;
 
     public event UnityAction JumpEvent;
-    public event UnityAction<Vector2> MoveEvent;
-    public event UnityAction<Vector2> RotateEvent;
+    //public event UnityAction<Vector2> MoveEvent;
+    //public event UnityAction<Vector2> RotateEvent;
 
     public event UnityAction FireEvent;
     public event UnityAction FireCanceledEvent;
     public event UnityAction AltFireEvent;
     public event UnityAction ReloadEvent;
-    public event UnityAction<WeaponTypes> ChangeWeaponEvent;
+    public event UnityAction<WeaponType> ChangeWeaponEvent;
+
+    public Vector2 MouseDelta => _gameInput.Movement.Rotate.ReadValue<Vector2>();
+    public Vector2 MoveValue => _gameInput.Movement.Move.ReadValue<Vector2>();
+
+    public void EnableWeaponSwitching()
+    {
+        _gameInput.Shooter.TakeMain.Enable();
+        _gameInput.Shooter.TakeSecondary.Enable();
+        _gameInput.Shooter.TakeMelee.Enable();
+    }
+
+    public void DisableWeaponSwitching()
+    {
+        _gameInput.Shooter.TakeMain.Disable();
+        _gameInput.Shooter.TakeSecondary.Disable();
+        _gameInput.Shooter.TakeMelee.Disable();
+    }
 
     private void OnEnable()
     {
@@ -52,16 +70,16 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
     // Player Actions
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            Debug.Log("OnMove performed");
-            MoveEvent?.Invoke(context.ReadValue<Vector2>());
-        }
-        if (context.phase == InputActionPhase.Canceled)
-        {
-            Debug.Log("OnMove canceled");
-            MoveEvent?.Invoke(context.ReadValue<Vector2>());
-        }
+        //if (context.phase == InputActionPhase.Performed)
+        //{
+        //    Debug.Log("OnMove performed");
+        //    MoveEvent?.Invoke(context.ReadValue<Vector2>());
+        //}
+        //if (context.phase == InputActionPhase.Canceled)
+        //{
+        //    Debug.Log("OnMove canceled");
+        //    MoveEvent?.Invoke(context.ReadValue<Vector2>());
+        //}
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -74,10 +92,10 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
 
     public void OnRotate(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            RotateEvent?.Invoke(context.ReadValue<Vector2>());
-        }
+        //if (context.phase == InputActionPhase.Performed)
+        //{
+        //    RotateEvent?.Invoke(context.ReadValue<Vector2>());
+        //}
     }
 
     // Shooter Actions
@@ -106,7 +124,7 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
         if (context.phase == InputActionPhase.Performed)
         {
             Debug.Log("OnTakeMain");
-            ChangeWeaponEvent?.Invoke(WeaponTypes.MainWeapon);
+            ChangeWeaponEvent?.Invoke(WeaponType.MainWeapon);
         }
     }
 
@@ -115,7 +133,7 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
         if (context.phase == InputActionPhase.Performed)
         {
             Debug.Log("OnTakeSecondary");
-            ChangeWeaponEvent?.Invoke(WeaponTypes.SecondaryWeapon);
+            ChangeWeaponEvent?.Invoke(WeaponType.SecondaryWeapon);
         }
     }
 
@@ -124,7 +142,7 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
         if (context.phase == InputActionPhase.Performed)
         {
             Debug.Log("OnTakeMelee");
-            ChangeWeaponEvent?.Invoke(WeaponTypes.Melee);
+            ChangeWeaponEvent?.Invoke(WeaponType.Melee);
         }
     }
 

@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: 313b15df1dabff046943ea6dfbf7786b
+guid: dd9323cd41131244e81eefe14fcbaf5f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _input: {instanceID: 0}
-  - _energyView: {fileID: 5284061588589661586, guid: 6f3e6101de220e2418bbaa4c4a445ba0, type: 3}
+  - _energyViewPrefab: {fileID: 5284061588589661586, guid: 6f3e6101de220e2418bbaa4c4a445ba0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

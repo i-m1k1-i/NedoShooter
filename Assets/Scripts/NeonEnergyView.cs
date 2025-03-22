@@ -1,12 +1,16 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NeonEnergyView : MonoBehaviour
+namespace Assets.Scripts.Characters.Neon
 {
-    [SerializeField] private Slider _slider;
-
-    public void SetValue(float sliderValue)
+    public class NeonEnergyView : MonoBehaviour
     {
-        _slider.value = sliderValue;
+        [SerializeField] private Slider _slider;
+
+        public void SetValue(float sliderValue)
+        {
+            _slider.value = sliderValue;
+        }
     }
 }

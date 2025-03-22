@@ -8,6 +8,6 @@ namespace Assets.Scripts.Player
         event UnityAction Attacking;
         event UnityAction Spraing;
         event UnityAction Reloading;
-        event UnityAction<WeaponTypes> ChangingWeapon;
+        event UnityAction<WeaponType> ChangingWeapon;
     }
 }
