@@ -1,3 +1,4 @@
+using Assets.Scripts.Economy.BuyMenu;
 using Assets.Scripts.Weapons;
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,6 +33,18 @@ namespace Assets.Scripts.Player
 
         }
 
+        public void SetWeapon(GameObject weaponPrefab)
+        {
+            GameObject weaponGO = Instantiate(weaponPrefab, _camera);
+            IWeapon weapon = weaponGO.GetComponent<IWeapon>();
+            if (_weapons[(int)weapon.Type] != null)
+            {
+                Destroy(_weapons[(int)weapon.Type].gameObject);
+            }
+            _weapons[(int)weapon.Type] = weapon;
+            ChangeWeapon(weapon.Type);
+        }
+
         private void Awake()
         {
             SetWeapons();
@@ -50,6 +63,10 @@ namespace Assets.Scripts.Player
         {
             for (int i = 0; i < _weaponPrefabs.Length; i++)
             {
+                if (_weaponPrefabs[i] == null)
+                {
+                    continue;
+                }
                 GameObject weaponGameObject = Instantiate(_weaponPrefabs[i], _camera);
                 _weapons[i] = weaponGameObject.GetComponent<IWeapon>();
                 weaponGameObject.SetActive(false);
@@ -87,6 +104,10 @@ namespace Assets.Scripts.Player
         public void ChangeWeapon(WeaponType weaponType)
         {
             IWeapon targetWeapon = _weapons[(int)weaponType];
+            if (targetWeapon == null)
+            {
+                return;
+            }
             if (targetWeapon != _currentWeapon)
             {
                 _currentWeapon?.gameObject.SetActive(false);
@@ -126,6 +147,7 @@ namespace Assets.Scripts.Player
             _input.FireCanceledEvent += HandleFireCanceled;
             _input.ChangeWeaponEvent += ChangeWeapon;
             _input.ReloadEvent += Reload;
+            BuyMenuGun.GunBouhgt += SetWeapon;
 
             //_userInput.Attacking += Attack;
             //_userInput.Spraing += Spray;
@@ -139,6 +161,7 @@ namespace Assets.Scripts.Player
             _input.FireCanceledEvent -= HandleFireCanceled;
             _input.ChangeWeaponEvent -= ChangeWeapon;
             _input.ReloadEvent -= Reload;
+            BuyMenuGun.GunBouhgt -= SetWeapon;
 
             //_userInput.Attacking -= Attack;
             //_userInput.Spraing -= Spray;

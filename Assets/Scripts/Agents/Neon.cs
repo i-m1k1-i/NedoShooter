@@ -30,7 +30,6 @@ namespace Assets.Scripts.Characters.Neon
             _defaultSpeed = _playerController.MoveSpeed;
             GameObject obj = new GameObject("EnergySystem");
             EnergySystem energySystem = obj.AddComponent<EnergySystem>();
-            energySystem.Prepare(this);
             SetState(new NeonNormalState(this));
         }
 

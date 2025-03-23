@@ -5,9 +5,9 @@ namespace Assets.Scripts.DragAndDrop
 {
     public class PlayerInventory : MonoBehaviour
     {
-        [SerializeField] WeaponUser _weaponUser;
-        [SerializeField] Transform _inventorySlots;
-        [SerializeField] Sprite _bulletSprite;
+        [SerializeField] private WeaponUser _weaponUser;
+        [SerializeField] private Transform _inventorySlots;
+        [SerializeField] private Sprite _bulletSprite;
 
         private PlayerInvetnorySlotUI[] _slots = new PlayerInvetnorySlotUI[8];
 

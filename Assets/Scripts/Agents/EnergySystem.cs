@@ -19,6 +19,7 @@ namespace Assets.Scripts.Characters.Neon
 
         private void Start()
 		{
+            _neon = FindAnyObjectByType<Neon>();
             _energy = _maxEnergy;
             _energyView = Instantiate(_energyViewPrefab);
             Debug.Log("EnergySystem start");

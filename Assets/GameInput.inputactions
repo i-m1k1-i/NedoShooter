@@ -189,7 +189,7 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "e7f629f3-ae0e-462f-a65d-abcfa0209c5e",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -304,6 +304,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "6513152d-eb83-4bec-a1fb-03475764e3f6",
+            "actions": [
+                {
+                    "name": "BuyMenu",
+                    "type": "Button",
+                    "id": "464c4daa-d0b8-4bac-8c7b-33e4696fa32f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "494dc1a4-6f33-46ea-9f1e-0a54a1d974e6",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

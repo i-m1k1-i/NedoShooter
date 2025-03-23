@@ -7,7 +7,7 @@ namespace Assets.Scripts.Weapons
     internal class Hands : MonoBehaviour, IWeapon
     {
         public event UnityAction Attacked;
-
+        public WeaponType Type => WeaponType.Melee;
         public Vector3 InHandPosition {  get; private set; }
 
         [SerializeField] private int _damage = 25;

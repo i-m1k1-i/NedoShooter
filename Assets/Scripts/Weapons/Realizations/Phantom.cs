@@ -1,12 +1,12 @@
 namespace Assets.Scripts.Weapons
 {
-    public class Vandal : Automatic
+    public class Phantom : Automatic
     {
         private void Awake()
         {
-            _damage = 25;
-            _sprayDelay = 0.1f;
-            MagazineCapacity = 25;
+            _damage = 20;
+            _sprayDelay = 0.07f;
+            MagazineCapacity = 30;
             Type = WeaponType.MainWeapon;
             Init();
         }

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 
 [CreateAssetMenu(menuName = "InputReader")]
-public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameInput.IMovementActions, GameInput.IShooterActions
+public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameInput.IMovementActions, GameInput.IShooterActions, GameInput.IUIActions
 {
     private GameInput _gameInput;
 
@@ -23,6 +23,8 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
     public event UnityAction AltFireEvent;
     public event UnityAction ReloadEvent;
     public event UnityAction<WeaponType> ChangeWeaponEvent;
+
+    public event UnityAction BuyMenuEvent;
 
     public Vector2 MouseDelta => _gameInput.Movement.Rotate.ReadValue<Vector2>();
     public Vector2 MoveValue => _gameInput.Movement.Move.ReadValue<Vector2>();
@@ -50,10 +52,12 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
             _gameInput.Movement.Enable();
             _gameInput.Shooter.Enable();
             _gameInput.Character.Enable();
+            _gameInput.UI.Enable();
 
             _gameInput.Movement.SetCallbacks(this);
             _gameInput.Shooter.SetCallbacks(this);
             _gameInput.Character.SetCallbacks(this);
+            _gameInput.UI.SetCallbacks(this);
         }
     }
 
@@ -64,6 +68,7 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
             _gameInput.Movement.Disable();
             _gameInput.Shooter.Disable();
             _gameInput.Character.Disable();
+            _gameInput.UI.Disable();
         }
     }
 
@@ -176,6 +181,14 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
         if (context.phase == InputActionPhase.Performed)
         {
             Ability3Event?.Invoke();
+        }
+    }
+
+    public void OnBuyMenu(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            BuyMenuEvent?.Invoke();
         }
     }
 }

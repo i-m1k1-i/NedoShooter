@@ -5,6 +5,7 @@ namespace Assets.Scripts.Weapons
 {
     public interface IWeapon
     {
+        public WeaponType Type { get; }
         public event UnityAction Attacked;
 
         public Vector3 InHandPosition {get;}

@@ -6,6 +6,7 @@
         {
             _damage = 15;
             MagazineCapacity = 20;
+            Type = WeaponType.SecondaryWeapon;
             Init();
         }
     }

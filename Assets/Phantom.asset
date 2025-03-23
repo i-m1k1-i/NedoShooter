@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c48794a06a8afc45a880b2ba96187a8, type: 3}
+  m_Name: Phantom
+  m_EditorClassIdentifier: 
+  _itemSprite: {fileID: 21300000, guid: c68ce6e13f7ecb045b5748fcdd4b84b8, type: 3}
+  _itemName: Phantom
+  _itemPrice: 2900
+  _weaponPrefab: {fileID: 2515978966475120112, guid: ab22e2a7fe355ab4a8dd4045630700ce, type: 3}

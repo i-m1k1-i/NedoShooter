@@ -211,7 +211,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""e7f629f3-ae0e-462f-a65d-abcfa0209c5e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -330,6 +330,34 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""6513152d-eb83-4bec-a1fb-03475764e3f6"",
+            ""actions"": [
+                {
+                    ""name"": ""BuyMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""464c4daa-d0b8-4bac-8c7b-33e4696fa32f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""494dc1a4-6f33-46ea-9f1e-0a54a1d974e6"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuyMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -352,6 +380,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Shooter_TakeSecondary = m_Shooter.FindAction("TakeSecondary", throwIfNotFound: true);
         m_Shooter_TakeMelee = m_Shooter.FindAction("TakeMelee", throwIfNotFound: true);
         m_Shooter_Reload = m_Shooter.FindAction("Reload", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_BuyMenu = m_UI.FindAction("BuyMenu", throwIfNotFound: true);
     }
 
     ~@GameInput()
@@ -359,6 +390,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Character.enabled, "This will cause a leak and performance issues, GameInput.Character.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Movement.enabled, "This will cause a leak and performance issues, GameInput.Movement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Shooter.enabled, "This will cause a leak and performance issues, GameInput.Shooter.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, GameInput.UI.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -626,6 +658,52 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         }
     }
     public ShooterActions @Shooter => new ShooterActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_BuyMenu;
+    public struct UIActions
+    {
+        private @GameInput m_Wrapper;
+        public UIActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BuyMenu => m_Wrapper.m_UI_BuyMenu;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @BuyMenu.started += instance.OnBuyMenu;
+            @BuyMenu.performed += instance.OnBuyMenu;
+            @BuyMenu.canceled += instance.OnBuyMenu;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @BuyMenu.started -= instance.OnBuyMenu;
+            @BuyMenu.performed -= instance.OnBuyMenu;
+            @BuyMenu.canceled -= instance.OnBuyMenu;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface ICharacterActions
     {
         void OnAbility1(InputAction.CallbackContext context);
@@ -646,5 +724,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnTakeSecondary(InputAction.CallbackContext context);
         void OnTakeMelee(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnBuyMenu(InputAction.CallbackContext context);
     }
 }

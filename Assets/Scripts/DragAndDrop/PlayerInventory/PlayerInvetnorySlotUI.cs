@@ -15,13 +15,13 @@ namespace Assets.Scripts.DragAndDrop
 
         protected override void RemoveItemHandler()
         {
-            _weaponUser.TryAddjustAmmo(-_icon.AmmoAmount);
+            _weaponUser.TryAddjustAmmo(-GetAmmoAmount());
             Debug.Log("Ammo taked out");
         }
 
         protected override void AddItemHandler()
         {
-            _weaponUser.TryAddjustAmmo(_icon.AmmoAmount);
+            _weaponUser.TryAddjustAmmo(GetAmmoAmount());
             Debug.Log("Ammo added");
         }
     }

@@ -24,6 +24,7 @@ namespace Assets.Scripts.Weapons
         private float _recoilPower;
         private float _addedRecoil;
 
+        public WeaponType Type { get; protected set; }
         public Vector3 InHandPosition { get; protected set; }
         public int CurrentAmmo { get; protected set; }
         public int MagazineCapacity { get; protected set; }
