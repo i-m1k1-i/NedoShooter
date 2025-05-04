@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Economy.BuyMenu
+namespace Nedoshooter.Economy.BuyMenu
 {
     [CreateAssetMenu(fileName = "New BuyMenuGun", menuName = "BuyMenu/BuyMenuGun")]
     public class BuyMenuGun : BuyMenuItemBase

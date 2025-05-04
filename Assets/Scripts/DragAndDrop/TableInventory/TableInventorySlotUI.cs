@@ -1,4 +1,4 @@
-namespace Assets.Scripts.DragAndDrop
+namespace Nedoshooter.DragAndDrop
 {
     public class TableInventorySlotUI : InventorySlotUI
     {

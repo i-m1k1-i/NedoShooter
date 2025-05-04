@@ -1,11 +1,19 @@
-using Assets.Scripts.Player;
+using Nedoshooter.Players;
+using Nedoshooter.WeaponUser;
 using UnityEngine;
+using Zenject;
 
-namespace Assets.Scripts.DragAndDrop
+namespace Nedoshooter.DragAndDrop
 {
     public class PlayerInvetnorySlotUI : InventorySlotUI
     {
-        [SerializeField] private WeaponUser _weaponUser;
+        private IHasExtraAmmo _hasExtraAmmo;
+
+        [Inject]
+        private void Initialize(IHasExtraAmmo hasExtraAmmo)
+        {
+            _hasExtraAmmo = hasExtraAmmo;
+        }
 
         public void ResetSlot()
         {
@@ -15,13 +23,13 @@ namespace Assets.Scripts.DragAndDrop
 
         protected override void RemoveItemHandler()
         {
-            _weaponUser.TryAddjustAmmo(-GetAmmoAmount());
+            _hasExtraAmmo.TryAddjustAmmo(-GetAmmoAmount());
             Debug.Log("Ammo taked out");
         }
 
         protected override void AddItemHandler()
         {
-            _weaponUser.TryAddjustAmmo(GetAmmoAmount());
+            _hasExtraAmmo.TryAddjustAmmo(GetAmmoAmount());
             Debug.Log("Ammo added");
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts
+﻿namespace Nedoshooter
 {
     public interface IState
     {

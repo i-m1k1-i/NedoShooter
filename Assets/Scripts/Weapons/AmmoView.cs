@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
 using TMPro;
-using Assets.Scripts.Player;
+using Nedoshooter.Players;
+using Nedoshooter.WeaponUser;
+using Zenject;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     public class AmmoView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _ammoUIText;
         [SerializeField] private IFirearm _weapon;
-        [SerializeField] private WeaponUser _weaponUser;
 
+        private IFirearmed _firearmed;
         private string _text;
+
+        [Inject]
+        private void Initialize(IFirearmed firearmed)
+        {
+            _firearmed = firearmed;
+        }
 
         private void Start()
         {
@@ -20,9 +28,9 @@ namespace Assets.Scripts.Weapons
         private void UpdateCurrentAmmo()
         {
             if (_weapon == null)
-                _text = $"{_weaponUser.ExtraAmmoAmount}";
+                _text = $"{_firearmed.ExtraAmmoAmount}";
             else
-                _text = $"{_weaponUser.ExtraAmmoAmount}/{_weapon.CurrentAmmo}";
+                _text = $"{_firearmed.ExtraAmmoAmount}/{_weapon.CurrentAmmo}";
             _ammoUIText.text = _text;
         }
 
@@ -45,8 +53,8 @@ namespace Assets.Scripts.Weapons
 
         private void OnEnable()
         {
-            _weaponUser.WeaponChanged += ChangeWeapon;
-            _weaponUser.ExtraAmmoAmountChanged += UpdateCurrentAmmo;
+            _firearmed.WeaponChanged += ChangeWeapon;
+            _firearmed.ExtraAmmoAmountChanged += UpdateCurrentAmmo;
         }
 
         private void OnDisable()
@@ -54,8 +62,8 @@ namespace Assets.Scripts.Weapons
             if (_weapon != null)
                 _weapon.AmmoAmountChanged -= UpdateCurrentAmmo;
 
-            _weaponUser.WeaponChanged -= ChangeWeapon;
-            _weaponUser.ExtraAmmoAmountChanged -= UpdateCurrentAmmo;
+            _firearmed.WeaponChanged -= ChangeWeapon;
+            _firearmed.ExtraAmmoAmountChanged -= UpdateCurrentAmmo;
         }
     }
 }

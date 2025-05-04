@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
+using Zenject;
 
-namespace Assets.Scripts.Player
+namespace Nedoshooter.Players
 {
     public class RotationController : MonoBehaviour
     {
-        [SerializeField] private InputReader _input;
-        [SerializeField] private Transform _camera;
         [SerializeField] private float _rotationSpeed;
+        [SerializeField]private Transform _cameraTransform;
 
+        private InputReader _input;
 
         private bool _rotationActive = true;
         private float _rotationX;
         public float RotationX => _rotationX;
+
+        [Inject]
+        private void Initialize(InputReader inputReader)
+        {
+            _input = inputReader;
+        }
 
         public void SetRotationActive(bool active)
         {
@@ -38,9 +45,9 @@ namespace Assets.Scripts.Player
 
         private void RotateAroundX(float inputY)
         {
-            _rotationX -= inputY * _rotationSpeed * Time.deltaTime; //_rotationSpeed * InputY * Time.deltaTime;
+            _rotationX -= inputY * _rotationSpeed * Time.deltaTime;
             _rotationX = Mathf.Clamp(_rotationX, -90f, 90f);
-            _camera.localRotation = Quaternion.Euler(_rotationX, 0f, 0f);
+            _cameraTransform.localRotation = Quaternion.Euler(_rotationX, 0f, 0f);
         }
 
         private void RotateAroundY(float inputX)

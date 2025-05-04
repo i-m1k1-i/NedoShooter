@@ -1,14 +1,13 @@
-using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
-namespace Assets.Scripts.Player
+namespace Nedoshooter.Players
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
         [Header("Required components")]
-        [SerializeField] private InputReader _input;
         [SerializeField] private FootStepsSounds _footStepsSounds;
         [SerializeField] private RotationController _rotationController;
 
@@ -19,14 +18,15 @@ namespace Assets.Scripts.Player
         [SerializeField] private float _slopeRayLength = 1.5f;
         [SerializeField] private float _gravity = 9.8f;
 
+        private InputReader _input;
+        private CharacterController _controller;
+
         private const float _stepDistance = 2.5f;
         private float _moveMultiplier = 1;
 
-        private CharacterController _controller;
+        private float _coveredDistance;
 
         private Vector3 _moveLocal;
-
-        private float _coveredDistance;
 
         private Vector2 _nonMoveableInput;
         private bool _isNonMoveableInput;
@@ -38,6 +38,12 @@ namespace Assets.Scripts.Player
         public bool IsGrounded => _controller.isGrounded;
 
         public event UnityAction<bool> MenuModeSetted;
+
+        [Inject]
+        private void Initialize(InputReader inputReader)
+        {
+            _input = inputReader;
+        }
 
         public void LockMouse(bool lockMouse)
         {

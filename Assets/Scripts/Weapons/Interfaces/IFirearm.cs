@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Events;
 using UnityEngine.UIElements.Experimental;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     internal interface IFirearm : IWeapon
     {

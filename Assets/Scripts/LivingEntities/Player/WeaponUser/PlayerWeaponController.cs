@@ -1,28 +1,33 @@
-using Assets.Scripts.Economy.BuyMenu;
-using Assets.Scripts.Weapons;
+using Nedoshooter.Economy.BuyMenu;
+using Nedoshooter.Weapons;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
+using Zenject;
 
-namespace Assets.Scripts.Player
+namespace Nedoshooter.WeaponUser
 {
-    public class WeaponUser : MonoBehaviour
+    public class PlayerWeaponController : MonoBehaviour, IFirearmed
     {
         public event UnityAction<IWeapon> WeaponChanged;
         public event UnityAction ExtraAmmoAmountChanged;
 
-        [SerializeField] private InputReader _input;
         [SerializeField] private GameObject[] _weaponPrefabs = new GameObject[3];
         [SerializeField] private Transform _camera;
         [SerializeField] private int _extraAmmo = 30;
         [SerializeField] private int _maxExtraAmmo = 350;
 
+        private InputReader _input;
         private IWeapon[] _weapons = new IWeapon[3];
         private IWeapon _currentWeapon;
         private bool _isAttacking;
 
         public int ExtraAmmoAmount => _extraAmmo;
 
+        [Inject]
+        private void Initialize(InputReader inputReader)
+        {
+            _input = inputReader;
+        }
 
         public bool TryAddjustAmmo(int amount)
         {
@@ -30,10 +35,9 @@ namespace Assets.Scripts.Player
             _extraAmmo = Mathf.Clamp(newAmount, 0, _maxExtraAmmo);
             ExtraAmmoAmountChanged?.Invoke();
             return true;
-
         }
 
-        public void SetWeapon(GameObject weaponPrefab)
+        public void SetWeaponInSlot(GameObject weaponPrefab)
         {
             GameObject weaponGO = Instantiate(weaponPrefab, _camera);
             IWeapon weapon = weaponGO.GetComponent<IWeapon>();
@@ -42,13 +46,36 @@ namespace Assets.Scripts.Player
                 Destroy(_weapons[(int)weapon.Type].gameObject);
             }
             _weapons[(int)weapon.Type] = weapon;
-            ChangeWeapon(weapon.Type);
+            SetActiveWeapon(weapon.Type);
+        }
+
+        public void SetActiveWeapon(WeaponType weaponType)
+        {
+            IWeapon targetWeapon = _weapons[(int)weaponType];
+            if (targetWeapon == null)
+            {
+                return;
+            }
+            if (targetWeapon != _currentWeapon)
+            {
+                _currentWeapon?.gameObject.SetActive(false);
+                _currentWeapon = targetWeapon;
+                if (targetWeapon is Hands hands)
+                {
+                    hands.SetHandsDefaultPosition();
+                }
+                _currentWeapon.transform.localPosition = _currentWeapon.InHandPosition;
+                _currentWeapon.transform.localRotation = Quaternion.identity;
+                _currentWeapon.gameObject.SetActive(true);
+                WeaponChanged?.Invoke(_currentWeapon);
+                Debug.Log("Weapon changed");
+            }
         }
 
         private void Awake()
         {
             SetWeapons();
-            ChangeWeapon(WeaponType.Melee);
+            SetActiveWeapon(WeaponType.Melee);
         }
 
         private void Update()
@@ -101,29 +128,6 @@ namespace Assets.Scripts.Player
             Debug.Log("Can't reload");
         }
 
-        public void ChangeWeapon(WeaponType weaponType)
-        {
-            IWeapon targetWeapon = _weapons[(int)weaponType];
-            if (targetWeapon == null)
-            {
-                return;
-            }
-            if (targetWeapon != _currentWeapon)
-            {
-                _currentWeapon?.gameObject.SetActive(false);
-                _currentWeapon = targetWeapon;
-                if (targetWeapon is Hands hands)
-                {
-                    hands.SetHandsDefaultPosition();
-                }
-                _currentWeapon.transform.localPosition = _currentWeapon.InHandPosition;
-                _currentWeapon.transform.localRotation = Quaternion.identity;
-                _currentWeapon.gameObject.SetActive(true);
-                WeaponChanged?.Invoke(_currentWeapon);
-                Debug.Log("Weapon changed");
-            }
-        }
-
         private void HandleFire()
         {
             if (_currentWeapon is Automatic)
@@ -145,18 +149,18 @@ namespace Assets.Scripts.Player
         {
             _input.FireEvent += HandleFire;
             _input.FireCanceledEvent += HandleFireCanceled;
-            _input.ChangeWeaponEvent += ChangeWeapon;
+            _input.ChangeWeaponEvent += SetActiveWeapon;
             _input.ReloadEvent += Reload;
-            BuyMenuGun.WeaponBouhgt += SetWeapon;
+            BuyMenuGun.WeaponBouhgt += SetWeaponInSlot;
         }
 
         private void OnDisable()
         {
             _input.FireEvent -= HandleFire;
             _input.FireCanceledEvent -= HandleFireCanceled;
-            _input.ChangeWeaponEvent -= ChangeWeapon;
+            _input.ChangeWeaponEvent -= SetActiveWeapon;
             _input.ReloadEvent -= Reload;
-            BuyMenuGun.WeaponBouhgt -= SetWeapon;
+            BuyMenuGun.WeaponBouhgt -= SetWeaponInSlot;
         }
     }
 }

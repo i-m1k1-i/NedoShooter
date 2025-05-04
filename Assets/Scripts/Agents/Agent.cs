@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Agents
+namespace Nedoshooter.Agents
 {
     public abstract class Agent : MonoBehaviour
     {

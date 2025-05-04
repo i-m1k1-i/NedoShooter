@@ -1,8 +1,8 @@
-using Assets.Scripts.Player;
+using Nedoshooter.Players;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     public abstract class Automatic : MonoBehaviour, IFirearm
     {

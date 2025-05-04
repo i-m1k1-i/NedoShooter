@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Weapons
+﻿namespace Nedoshooter.Weapons
 {
     public enum WeaponType
     {

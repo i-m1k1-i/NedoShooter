@@ -1,13 +1,20 @@
-using Assets.Scripts.Player;
+using Nedoshooter.Players;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(BoxCollider))]
 public class ExtraAmmoZone : MonoBehaviour
 {
     [SerializeField] private GameObject _extraAmmoDragMenu;
-    [SerializeField] private PlayerController _playerController;
 
+    private PlayerController _playerController;
     private bool _inZone;
+
+    [Inject]
+    private void Initialize(PlayerController playerController)
+    {
+        _playerController = playerController;
+    }
 
     private void Awake()
     {
@@ -26,17 +33,16 @@ public class ExtraAmmoZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<WeaponUser>(out WeaponUser _) == false)
+        if (other.TryGetComponent<PlayerController>(out _playerController) == false)
         {
             return;
         }
         _inZone = true;
-        other.TryGetComponent<PlayerController>(out _playerController);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent<WeaponUser>(out WeaponUser _))
+        if (other.TryGetComponent<PlayerController>(out _playerController) == false)
         {
             return;
         }

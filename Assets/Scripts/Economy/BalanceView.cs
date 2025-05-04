@@ -2,15 +2,15 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Economy.UI
+namespace Nedoshooter.Economy.UI
 {
     public class BalanceView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _balanceText;
-        [SerializeField] private IBalance _balance;
+        [SerializeField] private IHasBalance _balance;
 
         [Inject]
-        public void Initialize(IBalance balance)
+        public void Initialize(IHasBalance balance)
         {
             _balance = balance;
         }

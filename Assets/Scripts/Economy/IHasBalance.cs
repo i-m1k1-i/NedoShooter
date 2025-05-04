@@ -1,8 +1,8 @@
 ﻿using UnityEngine.Events;
 
-namespace Assets.Scripts.Economy
+namespace Nedoshooter.Economy
 {
-    public interface IBalance
+    public interface IHasBalance
     {
         int Balance { get; }
 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 
-namespace Assets.Scripts.Economy.BuyMenu
+namespace Nedoshooter.Economy.BuyMenu
 {
 	public class UIBuyMenuSlot : MonoBehaviour
 	{

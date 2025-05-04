@@ -1,33 +1,41 @@
-using Assets.Scripts.Player;
-using Assets.Scripts.Weapons;
 using System.Collections;
 using UnityEngine;
+using Zenject;
+using Nedoshooter.Players;
+using Nedoshooter.Weapons;
+using Nedoshooter.WeaponUser;
 
-
-namespace Assets.Scripts.Agents.Neon
+namespace Nedoshooter.Agents.Neon
 {
     public class Neon : Agent
     {
-        [SerializeField] private InputReader _input;
-
         [SerializeField] private float _runningMultiplier;
         [SerializeField] private float _dashMultiplier;
         [SerializeField] private float _dashDuration;
 
+        private InputReader _input;
         private PlayerController _playerController;
+
         private float _defaultSpeed;
         private int _ability1 = 100;
 
-        public WeaponUser WeaponUser { get; private set; }
+        public InputReader Input => _input;
+        public IHasWeapon WeaponUser { get; private set; }
+
         public float DefaultSpeed => _defaultSpeed;
         public float RnningSpeed => _defaultSpeed * _runningMultiplier;
-        public InputReader Input => _input;
 
+        [Inject]
+        private void Initialize(InputReader inputReader, IHasWeapon weaponUser)
+        {
+            WeaponUser = weaponUser;
+            _input = inputReader;
+        }
         
         private void Awake()
         {
-            WeaponUser = GetComponent<WeaponUser>();
-            _playerController = GetComponent<PlayerController>();
+            // WeaponUser = GetComponent<PlayerWeaponController>();
+            _playerController =  GetComponent<PlayerController>();
             _defaultSpeed = _playerController.MoveSpeed;
             GameObject obj = new GameObject("EnergySystem");
             EnergySystem energySystem = obj.AddComponent<EnergySystem>();
@@ -58,7 +66,7 @@ namespace Assets.Scripts.Agents.Neon
             Debug.Log("Dashing");
             _playerController.MultiplyMoveDirection(_dashMultiplier);
             _playerController.SetCanMove(false);
-            WeaponUser.ChangeWeapon(WeaponType.MainWeapon);
+            WeaponUser.SetActiveWeapon(WeaponType.MainWeapon);
 
             yield return new WaitForSeconds(_dashDuration);
 
@@ -144,9 +152,10 @@ namespace Assets.Scripts.Agents.Neon
         {
             neon = (Neon)_agent;
             neon.SetMoveSpeed(neon.RnningSpeed);
-            neon.WeaponUser.ChangeWeapon(WeaponType.Melee);
+            neon.WeaponUser.SetActiveWeapon(WeaponType.Melee);
             neon.Input.DisableWeaponSwitching();
         }
+
         public override void Update()
         {
             

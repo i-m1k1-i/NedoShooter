@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Economy.BuyMenu
+namespace Nedoshooter.Economy.BuyMenu
 {
     public abstract class BuyMenuItemBase : ScriptableObject, IBuyMenuItem
 	{

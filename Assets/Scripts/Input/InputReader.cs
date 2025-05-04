@@ -1,4 +1,4 @@
-using Assets.Scripts.Weapons;
+using Nedoshooter.Weapons;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;

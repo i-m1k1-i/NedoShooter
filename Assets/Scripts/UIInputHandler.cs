@@ -1,12 +1,21 @@
 using UnityEngine;
-using Assets.Scripts.Economy.BuyMenu;
-using Assets.Scripts.Player;
+using Nedoshooter.Economy.BuyMenu;
+using Nedoshooter.Players;
+using Zenject;
 
 public class UIInputHandler : MonoBehaviour
 {
-    [SerializeField] private InputReader _input;
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private BuyMenu _buyMenu;
+
+    private InputReader _input;
+    private PlayerController _playerController;
+
+    [Inject]
+    private void Initialize(InputReader inputReader, PlayerController playerController)
+    {
+        _input = inputReader;
+        _playerController = playerController;
+    }
 
     private void OnEnable()
     {

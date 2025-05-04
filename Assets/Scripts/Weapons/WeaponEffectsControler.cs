@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     [RequireComponent(typeof(IFirearm))]
     public class WeaponEffectsControler : MonoBehaviour

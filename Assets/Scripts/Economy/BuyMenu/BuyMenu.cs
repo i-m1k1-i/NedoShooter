@@ -1,13 +1,19 @@
-﻿using TMPro.EditorUtilities;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
-namespace Assets.Scripts.Economy.BuyMenu
+namespace Nedoshooter.Economy.BuyMenu
 {
 	public class BuyMenu : MonoBehaviour
 	{
-        [SerializeField] private PlayerMoney _playerMoney;
+        private PlayerMoney _playerMoney;
 
         public bool IsActive => gameObject.activeSelf;
+
+        [Inject]
+        private void Initialize(PlayerMoney playerMoney)
+        {
+            _playerMoney = playerMoney;
+        }
 
         public void Enable()
         {

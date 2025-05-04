@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Economy
+namespace Nedoshooter.Economy
 {
-    public class PlayerMoney : MonoBehaviour, IBalance
+    public class PlayerMoney : MonoBehaviour, IHasBalance
     {
         [SerializeField] private int _startBalance;
 

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Linq;
 
-namespace Assets.Scripts.Player
-{using Assets.Scripts.Surface;
+namespace Nedoshooter.Players
+{using Nedoshooter.Surface;
 
     public class FootStepsSounds : MonoBehaviour
     {

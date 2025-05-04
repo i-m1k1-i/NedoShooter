@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Surface
+namespace Nedoshooter.Surface
 {
     public class Surface : MonoBehaviour
     {

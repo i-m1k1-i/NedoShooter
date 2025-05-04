@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.DragAndDrop
+namespace Nedoshooter.DragAndDrop
 {
     public class InventoryItemIcon : MonoBehaviour 
     {

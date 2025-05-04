@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Agents.UI
+namespace Nedoshooter.Agents.UI
 {
     public class NeonEnergyView : MonoBehaviour
     {

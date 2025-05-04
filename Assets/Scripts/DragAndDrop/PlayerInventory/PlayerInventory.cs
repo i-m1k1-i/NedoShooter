@@ -1,15 +1,22 @@
-using Assets.Scripts.Player;
+using Nedoshooter.WeaponUser;
 using UnityEngine;
+using Zenject;
 
-namespace Assets.Scripts.DragAndDrop
+namespace Nedoshooter.DragAndDrop
 {
     public class PlayerInventory : MonoBehaviour
     {
-        [SerializeField] private WeaponUser _weaponUser;
+        [SerializeField] private IHasExtraAmmo _hasExtraAmmo;
         [SerializeField] private Transform _inventorySlots;
         [SerializeField] private Sprite _bulletSprite;
 
         private PlayerInvetnorySlotUI[] _slots = new PlayerInvetnorySlotUI[8];
+
+        [Inject]
+        private void Initialize(IHasExtraAmmo hasExtraAmmo)
+        {
+            _hasExtraAmmo = hasExtraAmmo;
+        }
 
         private void Awake()
         {   
@@ -22,7 +29,8 @@ namespace Assets.Scripts.DragAndDrop
 
         private void OnEnable()
         {
-            CreateUIExtraAmmos(_weaponUser.ExtraAmmoAmount);
+            Debug.Log($"Create UI Extra Ammos: {_hasExtraAmmo}");
+            CreateUIExtraAmmos(_hasExtraAmmo.ExtraAmmoAmount);
         }
 
         private void CreateUIExtraAmmos(int extraAmmoAmount)
@@ -33,13 +41,13 @@ namespace Assets.Scripts.DragAndDrop
                 slot.ResetSlot();
                 if (extraAmmoAmount >= 30)
                 {
-                    _weaponUser.TryAddjustAmmo(-30);
+                    _hasExtraAmmo.TryAddjustAmmo(-30);
                     slot.AddItem(_bulletSprite, 30);
                     extraAmmoAmount -= 30;
                 }
                 else if (extraAmmoAmount > 0)
                 {
-                    _weaponUser.TryAddjustAmmo(-extraAmmoAmount);
+                    _hasExtraAmmo.TryAddjustAmmo(-extraAmmoAmount);
                     slot.AddItem(_bulletSprite, extraAmmoAmount);
                     extraAmmoAmount = 0;
                 }

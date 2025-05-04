@@ -1,5 +1,5 @@
 ﻿
-namespace Assets.Scripts.Agents
+namespace Nedoshooter.Agents
 {
     public abstract class AgentState : IState
     {

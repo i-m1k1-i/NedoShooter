@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     public interface IWeapon
     {

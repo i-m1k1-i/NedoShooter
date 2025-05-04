@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.DragAndDrop
+namespace Nedoshooter.DragAndDrop
 {
     public interface IDragSource
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Weapons
+namespace Nedoshooter.Weapons
 {
     internal class Hands : MonoBehaviour, IWeapon
     {
