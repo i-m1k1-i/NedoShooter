@@ -29,6 +29,22 @@ namespace Assets.Scripts.DragAndDrop
 
         public void SetItem(Sprite sprite)
         {
+            if (_image == null)
+            {
+                Debug.Log("Image null");
+                return;
+            }
+            if(_image.sprite == null)
+            {
+                Debug.Log("Image sprite null");
+                return;
+            }
+            if (sprite == null)
+            {
+                Debug.Log("Sprite null");
+                return;
+            }
+
             _image.sprite = sprite;
             _canvasGroup.blocksRaycasts = sprite != null;
         }

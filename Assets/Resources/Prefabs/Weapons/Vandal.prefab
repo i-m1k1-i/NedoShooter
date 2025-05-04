@@ -155,9 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32fad44ce9e12d4aaa60b119bd689e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  _damage: 0
-  _sprayDelay: 0
+  tracerPrefab: {fileID: 9017210529363007765, guid: 6da53d1bbca57db4d959cf0728a1e4da, type: 3}
+  _barrelEndPoint: {fileID: 3408341497101936887}
   _defaultRecoilPower: 2
   _recoilPowerIncreasingRate: 0.4
 --- !u!95 &3790486695507888268
@@ -571,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 5504264242473420920}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.75}
+  m_LocalPosition: {x: 0, y: 0.54, z: 3.29}
   m_LocalScale: {x: 0.02, y: 0.01960199, z: 0.02132813}
   m_ConstrainProportionsScale: 1
   m_Children: []

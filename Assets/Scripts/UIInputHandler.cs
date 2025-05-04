@@ -1,5 +1,6 @@
 using UnityEngine;
 using Assets.Scripts.Economy.BuyMenu;
+using Assets.Scripts.Player;
 
 public class UIInputHandler : MonoBehaviour
 {
@@ -9,25 +10,25 @@ public class UIInputHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.BuyMenuEvent += OnBuyMenu;
+        _input.ToggleBuyMenuEvent += ToggleBuyMenu;
     }
 
     private void OnDisable()
     {
-        _input.BuyMenuEvent -= OnBuyMenu;
+        _input.ToggleBuyMenuEvent -= ToggleBuyMenu;
     }
 
-    private void OnBuyMenu()
+    private void ToggleBuyMenu()
     {
         if (_buyMenu.IsActive)
         {
             _buyMenu.Disable();
-            _playerController.SetMenuMode(false);
+            _playerController.LockMouse(true);
         }
         else
         {
             _buyMenu.Enable();
-            _playerController.SetMenuMode(true);
+            _playerController.LockMouse(false);
         }
     }
 }

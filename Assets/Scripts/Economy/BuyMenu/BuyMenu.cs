@@ -5,7 +5,7 @@ namespace Assets.Scripts.Economy.BuyMenu
 {
 	public class BuyMenu : MonoBehaviour
 	{
-        [SerializeField] private BankAccount _bankAccount;
+        [SerializeField] private PlayerMoney _playerMoney;
 
         public bool IsActive => gameObject.activeSelf;
 
@@ -36,9 +36,9 @@ namespace Assets.Scripts.Economy.BuyMenu
         
         private void OnSlotClick(IBuyMenuItem item)
         {
-            if (_bankAccount.Balance >= item.Price)
+            if (_playerMoney.Balance >= item.Price)
             {
-                _bankAccount.Withdraw(item.Price);
+                _playerMoney.TryRemoveMoney(item.Price);
                 item.OnBuy();
             }
             else

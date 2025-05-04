@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Weapons;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Economy.BuyMenu
 {

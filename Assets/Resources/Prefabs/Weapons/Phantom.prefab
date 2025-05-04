@@ -176,9 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d8e5b80192c8f4eba8a0e9f820e17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  _damage: 0
-  _sprayDelay: 0
+  tracerPrefab: {fileID: 9017210529363007765, guid: 6da53d1bbca57db4d959cf0728a1e4da, type: 3}
+  _barrelEndPoint: {fileID: 3408341497101936887}
   _defaultRecoilPower: 1.5
   _recoilPowerIncreasingRate: 0.3
 --- !u!114 &-2465405876844431226
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _boltClick: {fileID: 8300000, guid: 2d8b0621e40ad78449d18b1a600e28d8, type: 3}
-  _shot: {fileID: 8300000, guid: d432f78c3fe5fba468a4e1ec7f48c3d7, type: 3}
+  _shot: {fileID: 8300000, guid: 1ef37bc0ae04fbb489cd1718c283d84d, type: 3}
   _barrelEndPoint: {fileID: 3408341497101936887}
   _muzzleFlash: {fileID: 6632789096329238045, guid: 5a44004dcc28d8b42ac04d806d966e76, type: 3}
 --- !u!1 &3188691421179565647

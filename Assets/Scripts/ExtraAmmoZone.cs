@@ -20,7 +20,7 @@ public class ExtraAmmoZone : MonoBehaviour
         {
             bool menuIsActive = _extraAmmoDragMenu.activeSelf;
             _extraAmmoDragMenu.SetActive(!menuIsActive);
-            _playerController.SetMenuMode(!menuIsActive);
+            _playerController.LockMouse(menuIsActive);
         }
     }
 
@@ -46,7 +46,7 @@ public class ExtraAmmoZone : MonoBehaviour
         }
 
         _inZone = false;
-        _playerController.SetMenuMode(false);
+        _playerController.LockMouse(true);
         _playerController = null;
         _extraAmmoDragMenu.SetActive(false);
     }

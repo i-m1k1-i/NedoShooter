@@ -147,12 +147,7 @@ namespace Assets.Scripts.Player
             _input.FireCanceledEvent += HandleFireCanceled;
             _input.ChangeWeaponEvent += ChangeWeapon;
             _input.ReloadEvent += Reload;
-            BuyMenuGun.GunBouhgt += SetWeapon;
-
-            //_userInput.Attacking += Attack;
-            //_userInput.Spraing += Spray;
-            //_userInput.Reloading += Reload;
-            //_userInput.ChangingWeapon += ChangeWeapon;
+            BuyMenuGun.WeaponBouhgt += SetWeapon;
         }
 
         private void OnDisable()
@@ -161,12 +156,7 @@ namespace Assets.Scripts.Player
             _input.FireCanceledEvent -= HandleFireCanceled;
             _input.ChangeWeaponEvent -= ChangeWeapon;
             _input.ReloadEvent -= Reload;
-            BuyMenuGun.GunBouhgt -= SetWeapon;
-
-            //_userInput.Attacking -= Attack;
-            //_userInput.Spraing -= Spray;
-            //_userInput.Reloading -= Reload;
-            //_userInput.ChangingWeapon -= ChangeWeapon;
+            BuyMenuGun.WeaponBouhgt -= SetWeapon;
         }
     }
 }

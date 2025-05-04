@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Agents.UI;
 
-namespace Assets.Scripts.Characters.Neon
+namespace Assets.Scripts.Agents.Neon
 {
 	public class EnergySystem : MonoBehaviour
 	{
@@ -9,6 +10,7 @@ namespace Assets.Scripts.Characters.Neon
 
         [SerializeField] private Neon _neon;
         [SerializeField] private NeonEnergyView _energyView;
+
 		private float _energy;
 
         public void Prepare(Neon neon)

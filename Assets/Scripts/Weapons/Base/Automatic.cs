@@ -1,5 +1,4 @@
-using Assets.Scripts.LivingEntities.Player;
-using System.Runtime.CompilerServices;
+using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,22 +10,28 @@ namespace Assets.Scripts.Weapons
         public event UnityAction Attacked;
         public event UnityAction BoltCocked;
 
-        [SerializeField] protected Transform _camera;  
-        [SerializeField] protected int _damage;
-        [SerializeField] protected float _sprayDelay;
+        [SerializeField] private GameObject tracerPrefab;
+        [SerializeField] private Transform _barrelEndPoint;
 
         [Header("Recoil")]
         [SerializeField] protected float _defaultRecoilPower = 1f;
         [SerializeField] protected float _recoilPowerIncreasingRate = 0.1f;
-        //[SerializeField] protected float _recoilDecreasingRate = 0.06f;
-        protected float recoilDecreasingRate => _recoilPower * 0.025f;
 
+        protected float RecoilDecreasingRate => _recoilPower * 0.025f;
+        protected Transform _camera;
+        protected int _damage;
+        protected float _shotsPerSecond;
+
+        private float _shotsDelay;
         private RotationController _rotationController;
         private Animator _animator;
         private float _sprayTimer;
         private bool _safetyEnabled = false;
         private float _recoilPower;
         private float _addedRecoil;
+
+        private float _tracerDuration = 0.05f;
+        private float _tracerMaxDistance = 100f;
 
         public WeaponType Type { get; protected set; }
         public Vector3 InHandPosition { get; protected set; }
@@ -41,9 +46,22 @@ namespace Assets.Scripts.Weapons
             _rotationController = player.GetComponent<RotationController>();
             _animator = GetComponent<Animator>();
 
+            _shotsDelay = 1 / _shotsPerSecond;
             CurrentAmmo = MagazineCapacity;
             _recoilPower = _defaultRecoilPower;
             InHandPosition = new Vector3(0f, 0f, 0f);
+        }
+
+        private void OnEnable()
+        {
+            ResetRecoil();
+            _animator.SetTrigger("Take");
+            Debug.Log("In Hand Pos: " + InHandPosition);
+        }
+
+        private void OnDisable()
+        {
+            SafetyOn();
         }
 
         private void Update()
@@ -55,8 +73,8 @@ namespace Assets.Scripts.Weapons
 
             if (_addedRecoil > 0)
             {
-                _rotationController.AddRotateX(-recoilDecreasingRate);
-                _addedRecoil = Mathf.Clamp(_addedRecoil - recoilDecreasingRate, 0, 1000);
+                _rotationController.AddRotateX(-RecoilDecreasingRate);
+                _addedRecoil = Mathf.Clamp(_addedRecoil - RecoilDecreasingRate, 0, 1000);
             }
             else 
             {
@@ -73,21 +91,33 @@ namespace Assets.Scripts.Weapons
                 return;
             }
 
-            _sprayTimer = _sprayDelay;
+            _sprayTimer = _shotsDelay;
 
-            RaycastHit[] hits = Physics.RaycastAll(_camera.position, _camera.forward, 500);
-            foreach (RaycastHit hit in hits)
+            RaycastHit[] hits = new RaycastHit[10];
+            int hitCount = Physics.RaycastNonAlloc(_camera.position,  _camera.forward, hits, 500);
+
+            for (int i = 0; i < hitCount; i++)
             {
+                RaycastHit hit = hits[i];
                 if (hit.transform.TryGetComponent<Health>(out Health health))
                 {
                     health.TakeDamage(_damage);
                     print(hit.transform.name);
                 }
             }
+
             ApplyRecoil();
             CurrentAmmo--;
             Attacked?.Invoke();
             AmmoAmountChanged?.Invoke();
+
+            Vector3 direction = _camera.forward;
+            Vector3 tracerEndPoint = _camera.position + direction * _tracerMaxDistance;
+            if (hitCount > 0)
+            {
+                tracerEndPoint = hits[0].point;
+            }
+            CreateTracer(tracerEndPoint);
         }
 
         public virtual int Reload(int ammoAmount)
@@ -141,16 +171,14 @@ namespace Assets.Scripts.Weapons
             _recoilPower = _defaultRecoilPower;
         }
 
-        private void OnEnable()
+        private void CreateTracer(Vector3 endPoint)
         {
-            ResetRecoil();
-            _animator.SetTrigger("Take");
-            Debug.Log("In Hand Pos: " + InHandPosition);
-        }
+            GameObject tracer = Instantiate(tracerPrefab);
+            LineRenderer lr = tracer.GetComponent<LineRenderer>();
+            lr.SetPosition(0, _barrelEndPoint.position);
+            lr.SetPosition(1, endPoint);
 
-        private void OnDisable()
-        {
-            SafetyOn();
+            Destroy(tracer, _tracerDuration);
         }
     }
 }

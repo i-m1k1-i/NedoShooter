@@ -3,7 +3,8 @@ using Assets.Scripts.Weapons;
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.Characters.Neon
+
+namespace Assets.Scripts.Agents.Neon
 {
     public class Neon : Agent
     {
@@ -56,13 +57,13 @@ namespace Assets.Scripts.Characters.Neon
 
             Debug.Log("Dashing");
             _playerController.MultiplyMoveDirection(_dashMultiplier);
-            _playerController.MoveInput = false;
+            _playerController.SetCanMove(false);
             WeaponUser.ChangeWeapon(WeaponType.MainWeapon);
 
             yield return new WaitForSeconds(_dashDuration);
 
             SetState(new NeonNormalState(this));
-            _playerController.MoveInput = true;
+            _playerController.SetCanMove(true);
             Debug.Log("Dashing end");
             _playerController.MultiplyMoveDirection(1);
             _ability1 -= 1;

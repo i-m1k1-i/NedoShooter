@@ -2585,12 +2585,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _input: {fileID: 11400000, guid: b1b91388ceb87b04aa124b88724ce5fb, type: 2}
   _footStepsSounds: {fileID: 668205521}
+  _rotationController: {fileID: 547933302}
   _moveSpeed: 5
   _jumpForce: 4
   _slopeForce: 5
   _slopeRayLength: 1.5
   _gravity: 9.8
-  MoveInput: 1
 --- !u!143 &547933304
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2776,7 +2776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _energyViewPrefab: {fileID: 5284061588589661586, guid: 6f3e6101de220e2418bbaa4c4a445ba0, type: 3}
   _maxEnergy: 30
-  _neon: {fileID: 0}
+  _neon: {fileID: 547933308}
   _energyView: {fileID: 0}
 --- !u!114 &547933310
 MonoBehaviour:
@@ -2787,10 +2787,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 547933291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73347c219121e57409109065a2e4b151, type: 3}
+  m_Script: {fileID: 11500000, guid: 386d0cf63646ed842b75be028be9fa7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _balance: 111111
+  _startBalance: 10000
 --- !u!114 &547933311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4116,7 +4116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _balanceText: {fileID: 373611031}
-  _bankAccount: {fileID: 547933310}
 --- !u!1 &805537894
 GameObject:
   m_ObjectHideFlags: 0
@@ -7418,7 +7417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee34c74bf21756448f37805845203e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bankAccount: {fileID: 547933310}
+  _playerMoney: {fileID: 547933310}
 --- !u!4 &1637979506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2367043119326480023, guid: 728649d04bcdd2d47b74b45bc496323e, type: 3}
@@ -7728,6 +7727,84 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7734810166815299281, guid: 4bb37487c3fef16488918d074e7b8bdb, type: 3}
   m_PrefabInstance: {fileID: 268139505}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1692119465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1692119467}
+  - component: {fileID: 1692119466}
+  - component: {fileID: 1692119468}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1692119466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692119465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1692119468}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1692119467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692119465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1692119468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692119465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e8a6dda514e3f4d954949f6fbf389a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 547933291}
 --- !u!1 &1732625128
 GameObject:
   m_ObjectHideFlags: 0
@@ -9693,3 +9770,4 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 547933296}
   - {fileID: 1101798021}
+  - {fileID: 1692119467}

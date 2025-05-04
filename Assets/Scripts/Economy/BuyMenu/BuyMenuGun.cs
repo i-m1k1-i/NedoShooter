@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Economy.BuyMenu
@@ -9,11 +8,11 @@ namespace Assets.Scripts.Economy.BuyMenu
     {
         [SerializeField] protected GameObject _weaponPrefab;
 
-        public static event UnityAction<GameObject> GunBouhgt;
+        public static event UnityAction<GameObject> WeaponBouhgt;
 
         public override void OnBuy()
 		{
-            GunBouhgt?.Invoke(_weaponPrefab);
+            WeaponBouhgt?.Invoke(_weaponPrefab);
             Debug.Log($"{_itemName} bought");
 		}
     }

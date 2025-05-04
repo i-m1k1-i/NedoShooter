@@ -24,10 +24,24 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
     public event UnityAction ReloadEvent;
     public event UnityAction<WeaponType> ChangeWeaponEvent;
 
-    public event UnityAction BuyMenuEvent;
+    public event UnityAction ToggleBuyMenuEvent;
 
     public Vector2 MouseDelta => _gameInput.Movement.Rotate.ReadValue<Vector2>();
     public Vector2 MoveValue => _gameInput.Movement.Move.ReadValue<Vector2>();
+
+    public void EnablePlayerInput()
+    {
+        _gameInput.Movement.Enable();
+        _gameInput.Character.Enable();
+        _gameInput.Shooter.Enable();
+    }
+
+    public void DisablePlayerInput()
+    {
+        _gameInput.Movement.Disable();
+        _gameInput.Character.Disable();
+        _gameInput.Shooter.Disable();
+    }
 
     public void EnableWeaponSwitching()
     {
@@ -188,7 +202,7 @@ public class InputReader : ScriptableObject, GameInput.ICharacterActions, GameIn
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            BuyMenuEvent?.Invoke();
+            ToggleBuyMenuEvent?.Invoke();
         }
     }
 }

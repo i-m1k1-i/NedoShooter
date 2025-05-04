@@ -1,4 +1,4 @@
-using Assets.Scripts.LivingEntities.Player;
+using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Events;
 

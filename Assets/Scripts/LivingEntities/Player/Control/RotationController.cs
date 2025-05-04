@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.LivingEntities.Player
+namespace Assets.Scripts.Player
 {
     public class RotationController : MonoBehaviour
     {
@@ -8,8 +8,15 @@ namespace Assets.Scripts.LivingEntities.Player
         [SerializeField] private Transform _camera;
         [SerializeField] private float _rotationSpeed;
 
+
+        private bool _rotationActive = true;
         private float _rotationX;
         public float RotationX => _rotationX;
+
+        public void SetRotationActive(bool active)
+        {
+            _rotationActive = active;
+        }
 
         private void Update()
         {
@@ -18,6 +25,8 @@ namespace Assets.Scripts.LivingEntities.Player
 
         private void HandleRotation(Vector2 mouseInput)
         {
+            if (_rotationActive == false) return;
+
             float mouseInputX = mouseInput.x;
             float mouseInputY = mouseInput.y;
             Debug.Log("Mouse x: " + mouseInputX);
