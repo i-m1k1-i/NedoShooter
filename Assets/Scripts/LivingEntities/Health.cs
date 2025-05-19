@@ -1,18 +1,12 @@
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour
+public abstract class Health : MonoBehaviour, IDamagable, IHasHealth
 {
     [SerializeField] protected int _maxHealth = 100;
 
     [SerializeField] protected int _currentHealth;
+
     public int CurrentHealth => _currentHealth;
-
-
-    protected virtual void OnEnable()
-    {
-        _currentHealth = _maxHealth;
-    }
 
     public void TakeDamage(int damage)
     {
@@ -24,8 +18,11 @@ public abstract class Health : MonoBehaviour
         }
     }
 
-    protected virtual void Die()
+    protected virtual void OnEnable()
     {
-        Destroy(gameObject);
+        _currentHealth = _maxHealth;
     }
+
+
+    protected abstract void Die();
 }

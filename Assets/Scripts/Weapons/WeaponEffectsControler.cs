@@ -13,13 +13,13 @@ namespace Nedoshooter.Weapons
         [SerializeField] private Transform _barrelEndPoint;
         [SerializeField] private ParticleSystem _muzzleFlash;
 
-        private IFirearm _gun;
+        private IFirearm _firearm;
         private AudioSource _gunAudioSource;
 
 
         private void Awake()
         {
-            _gun = GetComponent<IFirearm>();
+            _firearm = GetComponent<IFirearm>();
             _gunAudioSource = transform.parent.parent.GetComponent<AudioSource>();
         }
 
@@ -34,17 +34,16 @@ namespace Nedoshooter.Weapons
             Instantiate(_muzzleFlash, _barrelEndPoint);
         }
 
-
         private void OnEnable()
         {
-            _gun.Attacked += Shoot;
-            _gun.BoltCocked += CockBolt;
+            _firearm.Attacked += Shoot;
+            _firearm.BoltCocked += CockBolt;
         }
 
         private void OnDisable()
         {
-            _gun.Attacked -= Shoot;
-            _gun.BoltCocked -= CockBolt;
+            _firearm.Attacked -= Shoot;
+            _firearm.BoltCocked -= CockBolt;
         }
     }
 }

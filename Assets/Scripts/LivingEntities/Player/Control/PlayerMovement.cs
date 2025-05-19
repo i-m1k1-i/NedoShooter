@@ -5,7 +5,7 @@ using Zenject;
 namespace Nedoshooter.Players
 {
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour, IMouseLocker
     {
         [Header("Required components")]
         [SerializeField] private FootStepsSounds _footStepsSounds;
@@ -120,7 +120,7 @@ namespace Nedoshooter.Players
         {
             if (_controller.isGrounded == false || _handleMoveInput == false)
             {
-                Debug.Log("move off");
+                // Debug.Log("move off");
                 _nonMoveableInput = input;
                 _isNonMoveableInput = true;
                 return;
@@ -128,7 +128,7 @@ namespace Nedoshooter.Players
 
             Vector3 direction = new Vector3(input.x, 0, input.y);
             _moveLocal = direction * _moveSpeed;
-            Debug.Log("Input direction: " + _moveLocal);
+            // Debug.Log("Input direction: " + _moveLocal);
 
             if (_isJumping)
             {

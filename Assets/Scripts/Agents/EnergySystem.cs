@@ -23,6 +23,7 @@ namespace Nedoshooter.Agents.Neon
 		{
             _neon = FindAnyObjectByType<Neon>();
             _energy = _maxEnergy;
+            _energyViewPrefab = Resources.Load<NeonEnergyView>("Prefabs/NeonEnergyView");
             _energyView = Instantiate(_energyViewPrefab);
             Debug.Log("EnergySystem start");
         }

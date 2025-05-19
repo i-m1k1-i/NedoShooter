@@ -2,19 +2,26 @@ using UnityEngine;
 using Nedoshooter.Economy.BuyMenu;
 using Nedoshooter.Players;
 using Zenject;
+using Nedoshooter.Installers;
 
-public class UIInputHandler : MonoBehaviour
+public class UIInputHandler : MonoBehaviour, IReinjectable
 {
     [SerializeField] private BuyMenu _buyMenu;
 
     private InputReader _input;
-    private PlayerController _playerController;
+    private IMouseLocker _mouseLockHandler;
 
     [Inject]
-    private void Initialize(InputReader inputReader, PlayerController playerController)
+    private void Initialize(InputReader inputReader, IMouseLocker mouseLocker)
     {
+        SampleInstaller.Instance.RegisterReinjectable(this);
         _input = inputReader;
-        _playerController = playerController;
+        _mouseLockHandler = mouseLocker;
+    }
+
+    public void Reinject(DiContainer container)
+    {
+        container.Inject(this);
     }
 
     private void OnEnable()
@@ -32,12 +39,12 @@ public class UIInputHandler : MonoBehaviour
         if (_buyMenu.IsActive)
         {
             _buyMenu.Disable();
-            _playerController.LockMouse(true);
+            _mouseLockHandler.LockMouse(true);
         }
         else
         {
             _buyMenu.Enable();
-            _playerController.LockMouse(false);
+            _mouseLockHandler.LockMouse(false);
         }
     }
 }

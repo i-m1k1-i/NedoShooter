@@ -62,7 +62,7 @@ namespace Nedoshooter.Weapons
             Vector3 raycastPosition = _camera.position + _camera.forward * 0.37f;
             if (Physics.Raycast(raycastPosition, _camera.forward, out RaycastHit hit, _damageDistance, layerMask))
             {
-                if (hit.transform.TryGetComponent<Health>(out Health health))
+                if (hit.transform.TryGetComponent<IDamagable>(out IDamagable health))
                 {
                     Debug.Log("Hit name: " + hit.transform.name);
                     health.TakeDamage(_damage);

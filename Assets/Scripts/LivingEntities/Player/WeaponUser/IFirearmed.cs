@@ -1,4 +1,4 @@
 ﻿namespace Nedoshooter.WeaponUser
 {
-    public interface IFirearmed : IHasWeapon, IHasExtraAmmo { }
+    public interface IFirearmed : IWeaponSwitcher, IHasExtraAmmo { }
 }

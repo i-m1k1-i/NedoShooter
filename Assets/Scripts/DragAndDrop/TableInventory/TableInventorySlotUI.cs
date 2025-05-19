@@ -2,8 +2,6 @@ namespace Nedoshooter.DragAndDrop
 {
     public class TableInventorySlotUI : InventorySlotUI
     {
-        
-
         protected override void RemoveItemHandler()
         {
             return;

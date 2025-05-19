@@ -17,7 +17,7 @@ namespace Nedoshooter.DragAndDrop
             _ammoAmount = amount;
         }
 
-        private void Awake ()
+        private void Awake()
         {
             _image = GetComponent<Image>();
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -32,16 +32,6 @@ namespace Nedoshooter.DragAndDrop
             if (_image == null)
             {
                 Debug.Log("Image null");
-                return;
-            }
-            if(_image.sprite == null)
-            {
-                Debug.Log("Image sprite null");
-                return;
-            }
-            if (sprite == null)
-            {
-                Debug.Log("Sprite null");
                 return;
             }
 

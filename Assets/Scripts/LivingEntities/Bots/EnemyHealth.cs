@@ -1,19 +1,17 @@
-using UnityEngine;
-
 public class EnemyHealth : Health
 {
-    private static EnemyController enemyController;
+    private static EnemyPool _enemyPool;
 
     private void Start()
     {
-        if (enemyController == null)
+        if (_enemyPool == null)
         {
-            enemyController = GameObject.Find("EnemyController").GetComponent<EnemyController>();
+            _enemyPool = FindAnyObjectByType<EnemyPool>();
         }
     }
 
     protected override void Die()
     {
-        enemyController.ReturnToPool(gameObject);
+        _enemyPool.ReturnToPool(this);
     }
 }

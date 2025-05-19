@@ -4,38 +4,47 @@ using Zenject;
 using Nedoshooter.Players;
 using Nedoshooter.Weapons;
 using Nedoshooter.WeaponUser;
+using Nedoshooter.Installers;
 
 namespace Nedoshooter.Agents.Neon
 {
-    public class Neon : Agent
+    public class Neon : Agent, IReinjectable
     {
         [SerializeField] private float _runningMultiplier;
         [SerializeField] private float _dashMultiplier;
         [SerializeField] private float _dashDuration;
 
         private InputReader _input;
-        private PlayerController _playerController;
+        private PlayerMovement _playerController;
 
         private float _defaultSpeed;
         private int _ability1 = 100;
 
         public InputReader Input => _input;
-        public IHasWeapon WeaponUser { get; private set; }
+        public IWeaponSwitcher WeaponController { get; private set; }
 
         public float DefaultSpeed => _defaultSpeed;
         public float RnningSpeed => _defaultSpeed * _runningMultiplier;
 
         [Inject]
-        private void Initialize(InputReader inputReader, IHasWeapon weaponUser)
+        private void Initialize(InputReader inputReader, IWeaponSwitcher weaponController)
         {
-            WeaponUser = weaponUser;
+            SampleInstaller.Instance.RegisterReinjectable(this);
+            WeaponController = weaponController;
             _input = inputReader;
         }
-        
-        private void Awake()
+
+        public void Reinject(DiContainer container)
         {
+            container.Inject(this);
+        }
+
+        private void Start()
+        {
+            Debug.Log("Neon awake");
             // WeaponUser = GetComponent<PlayerWeaponController>();
-            _playerController =  GetComponent<PlayerController>();
+            Debug.Log(transform.parent.name);
+            _playerController =  transform.parent.GetComponent<PlayerMovement>();
             _defaultSpeed = _playerController.MoveSpeed;
             GameObject obj = new GameObject("EnergySystem");
             EnergySystem energySystem = obj.AddComponent<EnergySystem>();
@@ -66,7 +75,9 @@ namespace Nedoshooter.Agents.Neon
             Debug.Log("Dashing");
             _playerController.MultiplyMoveDirection(_dashMultiplier);
             _playerController.SetCanMove(false);
-            WeaponUser.SetActiveWeapon(WeaponType.MainWeapon);
+
+            WeaponController.SetActiveWeapon(WeaponType.SecondaryWeapon);
+            WeaponController.SetActiveWeapon(WeaponType.MainWeapon);
 
             yield return new WaitForSeconds(_dashDuration);
 
@@ -152,7 +163,7 @@ namespace Nedoshooter.Agents.Neon
         {
             neon = (Neon)_agent;
             neon.SetMoveSpeed(neon.RnningSpeed);
-            neon.WeaponUser.SetActiveWeapon(WeaponType.Melee);
+            neon.WeaponController.SetActiveWeapon(WeaponType.Melee);
             neon.Input.DisableWeaponSwitching();
         }
 

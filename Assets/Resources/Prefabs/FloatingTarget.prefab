@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 715308120194515355}
   - component: {fileID: 2722500073306658964}
   m_Layer: 0
-  m_Name: FloatingEnemy
+  m_Name: FloatingTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

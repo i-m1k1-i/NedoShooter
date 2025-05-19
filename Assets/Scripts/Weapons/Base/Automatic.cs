@@ -99,9 +99,9 @@ namespace Nedoshooter.Weapons
             for (int i = 0; i < hitCount; i++)
             {
                 RaycastHit hit = hits[i];
-                if (hit.transform.TryGetComponent<Health>(out Health health))
+                if (hit.transform.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    health.TakeDamage(_damage);
+                    damagable.TakeDamage(_damage);
                     print(hit.transform.name);
                 }
             }

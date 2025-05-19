@@ -1,21 +1,28 @@
+using Nedoshooter.Installers;
 using Nedoshooter.WeaponUser;
 using UnityEngine;
 using Zenject;
 
 namespace Nedoshooter.DragAndDrop
 {
-    public class PlayerInventory : MonoBehaviour
+    public class PlayerInventory : MonoBehaviour, IReinjectable
     {
-        [SerializeField] private IHasExtraAmmo _hasExtraAmmo;
         [SerializeField] private Transform _inventorySlots;
         [SerializeField] private Sprite _bulletSprite;
 
+        private IHasExtraAmmo _hasExtraAmmo;
         private PlayerInvetnorySlotUI[] _slots = new PlayerInvetnorySlotUI[8];
 
         [Inject]
         private void Initialize(IHasExtraAmmo hasExtraAmmo)
         {
+            SampleInstaller.Instance.RegisterReinjectable(this);
             _hasExtraAmmo = hasExtraAmmo;
+        }
+
+        public void Reinject(DiContainer container)
+        {
+            container.Inject(this);
         }
 
         private void Awake()
@@ -35,9 +42,9 @@ namespace Nedoshooter.DragAndDrop
 
         private void CreateUIExtraAmmos(int extraAmmoAmount)
         {
-
             foreach (var slot in _slots)
             {
+                Debug.Log($"Slot: {slot.name}");
                 slot.ResetSlot();
                 if (extraAmmoAmount >= 30)
                 {

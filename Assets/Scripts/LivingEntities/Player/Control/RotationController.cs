@@ -36,8 +36,8 @@ namespace Nedoshooter.Players
 
             float mouseInputX = mouseInput.x;
             float mouseInputY = mouseInput.y;
-            Debug.Log("Mouse x: " + mouseInputX);
-            Debug.Log("Mouse y: " + mouseInputY);
+            //Debug.Log("Mouse x: " + mouseInputX);
+            //Debug.Log("Mouse y: " + mouseInputY);
 
             RotateAroundX(mouseInputY);
             RotateAroundY(mouseInputX);

@@ -37,18 +37,6 @@ namespace Nedoshooter.WeaponUser
             return true;
         }
 
-        public void SetWeaponInSlot(GameObject weaponPrefab)
-        {
-            GameObject weaponGO = Instantiate(weaponPrefab, _camera);
-            IWeapon weapon = weaponGO.GetComponent<IWeapon>();
-            if (_weapons[(int)weapon.Type] != null)
-            {
-                Destroy(_weapons[(int)weapon.Type].gameObject);
-            }
-            _weapons[(int)weapon.Type] = weapon;
-            SetActiveWeapon(weapon.Type);
-        }
-
         public void SetActiveWeapon(WeaponType weaponType)
         {
             IWeapon targetWeapon = _weapons[(int)weaponType];
@@ -84,6 +72,18 @@ namespace Nedoshooter.WeaponUser
             {
                 Attack();
             }
+        }
+
+        private void SetWeaponInSlot(GameObject weaponPrefab)
+        {
+            GameObject weaponGO = Instantiate(weaponPrefab, _camera);
+            IWeapon weapon = weaponGO.GetComponent<IWeapon>();
+            if (_weapons[(int)weapon.Type] != null)
+            {
+                Destroy(_weapons[(int)weapon.Type].gameObject);
+            }
+            _weapons[(int)weapon.Type] = weapon;
+            SetActiveWeapon(weapon.Type);
         }
 
         private void SetWeapons()

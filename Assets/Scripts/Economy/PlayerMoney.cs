@@ -3,17 +3,15 @@ using UnityEngine.Events;
 
 namespace Nedoshooter.Economy
 {
-    public class PlayerMoney : MonoBehaviour, IHasBalance
+    public class PlayerMoney : IHasBalance
     {
-        [SerializeField] private int _startBalance;
-
         public int Balance { get; private set; }
 
         public event UnityAction BalanceChanged;
 
-        private void Start()
+        public void SetBalance(int amount)
         {
-            Balance = _startBalance;
+            Balance = amount;
             BalanceChanged?.Invoke();
         }
 

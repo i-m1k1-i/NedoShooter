@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using TMPro;
-using Nedoshooter.Players;
 using Nedoshooter.WeaponUser;
 using Zenject;
+using System.Collections;
+using Nedoshooter.Installers;
 
 namespace Nedoshooter.Weapons
 {
-    public class AmmoView : MonoBehaviour
+    public class AmmoView : MonoBehaviour, IReinjectable
     {
         [SerializeField] private TextMeshProUGUI _ammoUIText;
         [SerializeField] private IFirearm _weapon;
@@ -17,7 +18,13 @@ namespace Nedoshooter.Weapons
         [Inject]
         private void Initialize(IFirearmed firearmed)
         {
+            SampleInstaller.Instance.RegisterReinjectable(this);
             _firearmed = firearmed;
+        }
+
+        public void Reinject(DiContainer container)
+        {
+            container.Inject(this);
         }
 
         private void Start()
@@ -53,8 +60,7 @@ namespace Nedoshooter.Weapons
 
         private void OnEnable()
         {
-            _firearmed.WeaponChanged += ChangeWeapon;
-            _firearmed.ExtraAmmoAmountChanged += UpdateCurrentAmmo;
+            StartCoroutine(DelayedSubscribe());
         }
 
         private void OnDisable()
@@ -62,8 +68,19 @@ namespace Nedoshooter.Weapons
             if (_weapon != null)
                 _weapon.AmmoAmountChanged -= UpdateCurrentAmmo;
 
-            _firearmed.WeaponChanged -= ChangeWeapon;
-            _firearmed.ExtraAmmoAmountChanged -= UpdateCurrentAmmo;
+            if (_firearmed != null)
+            {
+                _firearmed.WeaponChanged -= ChangeWeapon;
+                _firearmed.ExtraAmmoAmountChanged -= UpdateCurrentAmmo;
+            }
+        }
+
+        private IEnumerator DelayedSubscribe()
+        {
+            yield return new WaitWhile(() => _firearmed == null);
+
+            _firearmed.WeaponChanged += ChangeWeapon;
+            _firearmed.ExtraAmmoAmountChanged += UpdateCurrentAmmo;
         }
     }
 }

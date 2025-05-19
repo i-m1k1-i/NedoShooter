@@ -7,5 +7,7 @@ namespace Nedoshooter.Economy
         int Balance { get; }
 
         public event UnityAction BalanceChanged;
+
+        public void SetBalance(int amount);
     }
 }

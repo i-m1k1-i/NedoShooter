@@ -1,20 +1,13 @@
 using Nedoshooter.Players;
 using UnityEngine;
-using Zenject;
 
 [RequireComponent(typeof(BoxCollider))]
 public class ExtraAmmoZone : MonoBehaviour
 {
     [SerializeField] private GameObject _extraAmmoDragMenu;
 
-    private PlayerController _playerController;
+    private IMouseLocker _mouseLocker;
     private bool _inZone;
-
-    [Inject]
-    private void Initialize(PlayerController playerController)
-    {
-        _playerController = playerController;
-    }
 
     private void Awake()
     {
@@ -25,35 +18,38 @@ public class ExtraAmmoZone : MonoBehaviour
     {
         if (_inZone && Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log(_extraAmmoDragMenu.name);
             bool menuIsActive = _extraAmmoDragMenu.activeSelf;
             _extraAmmoDragMenu.SetActive(!menuIsActive);
-            _playerController.LockMouse(menuIsActive);
+            _mouseLocker.LockMouse(menuIsActive);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<PlayerController>(out _playerController) == false)
+        if (other.TryGetComponent<PlayerMovement>(out PlayerMovement player) == false)
         {
             return;
         }
+
+        _mouseLocker = player.GetComponent<IMouseLocker>();
         _inZone = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<PlayerController>(out _playerController) == false)
+        if (other.TryGetComponent<PlayerMovement>(out _) == false)
         {
             return;
         }
-        if (_playerController == null)
+        if (_mouseLocker == null)
         {
             return;
         }
 
         _inZone = false;
-        _playerController.LockMouse(true);
-        _playerController = null;
+        _mouseLocker.LockMouse(true);
+        _mouseLocker = null;
         _extraAmmoDragMenu.SetActive(false);
     }
 }

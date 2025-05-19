@@ -20,10 +20,9 @@ GameObject:
   - component: {fileID: 7887207282613251017}
   - component: {fileID: 559751133649325752}
   - component: {fileID: 2795697688654018003}
-  - component: {fileID: 1922265673120872397}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60220b2c6bd1bad4f96cbc8362d5a846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startBalance: 10000
 --- !u!114 &4080308002476207790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3655879492122270001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d06cd7cb31f3d4b8d1d7284b59d248, type: 3}
+  m_Script: {fileID: 11500000, guid: 450239b1d6146cc418e911dc4501042d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _footStepsSounds: {fileID: 2755220609934962313}
@@ -343,21 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55abf16806d87344d8eb74c878b4f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 150
   _currentHealth: 0
---- !u!114 &1922265673120872397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3655879492122270001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 386d0cf63646ed842b75be028be9fa7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startBalance: 10000
 --- !u!1 &4534253964768776877
 GameObject:
   m_ObjectHideFlags: 0

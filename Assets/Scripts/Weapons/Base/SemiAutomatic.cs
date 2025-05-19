@@ -66,10 +66,10 @@ namespace Nedoshooter.Weapons
             }
 
             RaycastHit[] hits = Physics.RaycastAll(_camera.position, _camera.forward, 500);
-            Debug.Log("Semi attack raycast");
+
             foreach (RaycastHit hit in hits)
             {
-                if (hit.transform.TryGetComponent<Health>(out Health health))
+                if (hit.transform.TryGetComponent<IDamagable>(out IDamagable health))
                 {
                     Debug.Log("Semi attack damage");
                     health.TakeDamage(_damage);

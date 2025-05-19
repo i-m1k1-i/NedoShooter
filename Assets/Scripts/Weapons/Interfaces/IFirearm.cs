@@ -1,5 +1,4 @@
 ﻿using UnityEngine.Events;
-using UnityEngine.UIElements.Experimental;
 
 namespace Nedoshooter.Weapons
 {
